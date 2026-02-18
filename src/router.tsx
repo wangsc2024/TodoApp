@@ -11,6 +11,7 @@ const Transfer = lazy(() => import("./pages/Transfer"));
 const Categories = lazy(() => import("./pages/Categories"));
 const Purge = lazy(() => import("./pages/Purge"));
 const Sync = lazy(() => import("./pages/Sync"));
+const Auth = lazy(() => import("./pages/Auth"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 const AppRouter = (): ReactElement => {
@@ -26,6 +27,7 @@ const AppRouter = (): ReactElement => {
         <Route path="/categories" element={<Categories />} />
         <Route path="/purge" element={<Purge />} />
         <Route path="/sync" element={<Sync />} />
+        <Route path="/auth" element={<Auth />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Suspense>

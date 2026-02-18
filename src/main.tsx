@@ -4,6 +4,7 @@ import { BrowserRouter } from "react-router-dom";
 import { initColors } from "ntc-ts";
 import { ORIGINAL_COLORS } from "ntc-ts";
 import { UserContextProvider } from "./contexts/UserProvider.tsx";
+import { AuthProvider } from "./contexts/AuthProvider.tsx";
 import { registerSW } from "virtual:pwa-register";
 import { showToast } from "./utils/showToast.tsx";
 import { updatePrompt } from "./utils/updatePrompt.tsx";
@@ -59,10 +60,12 @@ navigator.serviceWorker?.addEventListener("controllerchange", () => {
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <BrowserRouter>
-    <UserContextProvider>
-      <TaskProvider>
-        <App />
-      </TaskProvider>
-    </UserContextProvider>
+    <AuthProvider>
+      <UserContextProvider>
+        <TaskProvider>
+          <App />
+        </TaskProvider>
+      </UserContextProvider>
+    </AuthProvider>
   </BrowserRouter>,
 );

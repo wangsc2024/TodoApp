@@ -17,8 +17,10 @@ import { useContext, useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import {
   AddAPhotoRounded,
+  CloudDoneRounded,
   Delete,
   LinkRounded,
+  LoginRounded,
   Logout,
   SaveRounded,
   Settings,
@@ -41,10 +43,14 @@ import {
   ALLOWED_PFP_TYPES,
 } from "../utils/profilePictureStorage";
 import { ColorPalette } from "../theme/themeConfig";
+import { useAuth } from "../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 
 // TODO: move this to settings dialog
 const UserProfile = () => {
   const { user, setUser } = useContext(UserContext);
+  const { isAuthenticated, firebaseUser } = useAuth();
+  const navigate = useNavigate();
   const { name, profilePicture, createdAt } = user;
   const [userName, setUserName] = useState<string>("");
   const [profilePictureURL, setProfilePictureURL] = useState<string>("");
@@ -278,6 +284,23 @@ const UserProfile = () => {
           </CreatedAtDate>
         </Tooltip>
 
+        {isAuthenticated ? (
+          <AuthStatusBadge>
+            <CloudDoneRounded fontSize="small" />
+            &nbsp;{firebaseUser?.email}
+          </AuthStatusBadge>
+        ) : (
+          <Button
+            variant="outlined"
+            size="small"
+            sx={{ borderRadius: "14px", textTransform: "none" }}
+            onClick={() => navigate("/auth")}
+          >
+            <LoginRounded fontSize="small" />
+            &nbsp; 登入以跨裝置同步
+          </Button>
+        )}
+
         <TextField
           sx={{ width: "300px", marginTop: "8px" }}
           label={name === null ? "Add Name" : "Change Name"}
@@ -480,6 +503,17 @@ const CreatedAtDate = styled.span`
   & font {
     margin: 0 1px;
   }
+`;
+
+const AuthStatusBadge = styled.div`
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  opacity: 0.85;
+  color: ${({ theme }) => theme.primary};
+  margin-top: -4px;
+  word-break: break-all;
+  text-align: center;
 `;
 
 const StyledDivider = styled(Divider)`

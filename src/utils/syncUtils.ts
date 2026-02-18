@@ -48,7 +48,7 @@ export async function extractOtherData(
  * Merges two arrays of tasks, keeping only non-deleted tasks from both devices
  * and removing references to deleted categories from tasks
  */
-function mergeTasks(
+export function mergeTasks(
   localTasks: Task[],
   remoteTasks: Task[],
   localDeleted: UUID[],
@@ -111,7 +111,7 @@ function mergeTasks(
 /**
  * Merges two arrays of categories, keeping only non-deleted categories from both devices
  */
-function mergeCategories(
+export function mergeCategories(
   localCategories: Category[],
   remoteCategories: Category[],
   localDeleted: UUID[],

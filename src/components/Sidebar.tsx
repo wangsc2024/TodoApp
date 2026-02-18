@@ -6,6 +6,7 @@ import {
   AdjustRounded,
   BugReportRounded,
   CategoryRounded,
+  CloudDoneRounded,
   DeleteForeverRounded,
   DownloadDoneRounded,
   Favorite,
@@ -16,6 +17,7 @@ import {
   InstallDesktopRounded,
   InstallMobileRounded,
   IosShareRounded,
+  LoginRounded,
   Logout,
   PhoneIphoneRounded,
   PhonelinkRounded,
@@ -41,6 +43,7 @@ import bmcLogoLight from "../assets/bmc-logo-light.svg";
 import bmcLogo from "../assets/bmc-logo.svg";
 import { defaultUser } from "../constants/defaultUser";
 import { UserContext } from "../contexts/UserContext";
+import { useAuth } from "../hooks/useAuth";
 import { fetchBMCInfo } from "../services/bmcApi";
 import { fetchGitHubInfo } from "../services/githubApi";
 import { DialogBtn, UserAvatar, pulseAnimation, reduceMotion, ring } from "../styles";
@@ -55,6 +58,7 @@ import {
 
 export const ProfileSidebar = () => {
   const { user, setUser } = useContext(UserContext);
+  const { isAuthenticated } = useAuth();
   const { name, profilePicture, tasks, settings } = user;
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -311,6 +315,18 @@ export const ProfileSidebar = () => {
             )}
           </StyledMenuItem>
         </MenuLink>
+
+        {!isAuthenticated ? (
+          <MenuLink to="/auth">
+            <StyledMenuItem onClick={handleClose}>
+              <LoginRounded /> &nbsp; 登入 / 註冊
+            </StyledMenuItem>
+          </MenuLink>
+        ) : (
+          <StyledMenuItem disabled>
+            <CloudDoneRounded /> &nbsp; 已同步至雲端
+          </StyledMenuItem>
+        )}
 
         <StyledDivider />
 

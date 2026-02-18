@@ -89,6 +89,9 @@ export default defineConfig({
             if (id.includes("ntc-ts")) {
               return "ntc";
             }
+            if (id.includes("firebase")) {
+              return "firebase";
+            }
             return "vendor"; // other node_modules
           }
 
