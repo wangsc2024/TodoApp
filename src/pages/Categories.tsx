@@ -44,7 +44,7 @@ import InputThemeProvider from "../contexts/InputThemeProvider";
 import { useToasterStore } from "react-hot-toast";
 import { TaskContext } from "../contexts/TaskContext";
 
-const DEFAULT_EDIT_CATEGORY_SUBTITLE = "Edit the details of the category.";
+const DEFAULT_EDIT_CATEGORY_SUBTITLE = "編輯分類的詳細資訊。";
 
 const NotFound = lazy(() => import("./NotFound"));
 
@@ -81,7 +81,7 @@ const Categories = () => {
       n("/");
     }
     if (name.length > CATEGORY_NAME_MAX_LENGTH) {
-      setNameError(`Name is too long (maximum ${CATEGORY_NAME_MAX_LENGTH} characters)`);
+      setNameError(`名稱過長（最多 ${CATEGORY_NAME_MAX_LENGTH} 個字元）`);
     }
   }, [n, name.length, user.settings]);
 
@@ -94,7 +94,7 @@ const Categories = () => {
       setEditNameError("");
       setEditLastSaveLabel(
         cat.lastSave
-          ? `Last edited ${timeAgo(new Date(cat.lastSave))} • ${formatDate(new Date(cat.lastSave))}`
+          ? `上次編輯於 ${timeAgo(new Date(cat.lastSave))} • ${formatDate(new Date(cat.lastSave))}`
           : DEFAULT_EDIT_CATEGORY_SUBTITLE,
       );
     }
@@ -129,7 +129,7 @@ const Categories = () => {
 
     showToast(
       <div>
-        Deleted category - <b translate="no">{categoryName}.</b>
+        已刪除分類 - <b translate="no">{categoryName}。</b>
       </div>,
     );
   };
@@ -138,7 +138,7 @@ const Categories = () => {
     const newName = event.target.value;
     setName(newName);
     if (newName.length > CATEGORY_NAME_MAX_LENGTH) {
-      setNameError(`Name is too long (maximum ${CATEGORY_NAME_MAX_LENGTH} characters)`);
+      setNameError(`名稱過長（最多 ${CATEGORY_NAME_MAX_LENGTH} 個字元）`);
     } else {
       setNameError("");
     }
@@ -148,7 +148,7 @@ const Categories = () => {
     const newName = event.target.value;
     setEditName(newName);
     if (newName.length > CATEGORY_NAME_MAX_LENGTH) {
-      setEditNameError(`Name is too long (maximum ${CATEGORY_NAME_MAX_LENGTH} characters)`);
+      setEditNameError(`名稱過長（最多 ${CATEGORY_NAME_MAX_LENGTH} 個字元）`);
     } else {
       setEditNameError("");
     }
@@ -169,7 +169,7 @@ const Categories = () => {
 
       showToast(
         <div>
-          Added category - <b translate="no">{newCategory.name}</b>
+          已新增分類 - <b translate="no">{newCategory.name}</b>
         </div>,
       );
 
@@ -182,7 +182,7 @@ const Categories = () => {
       setColor(theme.primary);
       setEmoji("");
     } else {
-      showToast("Category name is required.", {
+      showToast("請輸入分類名稱。", {
         type: "error",
         preventDuplicate: true,
         id: "category-name-required",
@@ -210,7 +210,7 @@ const Categories = () => {
 
     showToast(
       <div>
-        Updated category - <b translate="no">{editName}</b>
+        已更新分類 - <b translate="no">{editName}</b>
       </div>,
     );
 
@@ -234,12 +234,12 @@ const Categories = () => {
   };
 
   if (!user.settings.enableCategories) {
-    return <NotFound message="Categories are not enabled." />;
+    return <NotFound message="分類功能尚未啟用。" />;
   }
 
   return (
     <>
-      <TopBar title="Categories" />
+      <TopBar title="分類" />
       <CategoriesContainer>
         {user.categories.length > 0 ? (
           <CategoryElementsContainer>
@@ -269,7 +269,7 @@ const Categories = () => {
                     &nbsp;
                     <span style={{ wordBreak: "break-all", fontWeight: 600 }}>{category.name}</span>
                     {totalTasksCount > 0 && (
-                      <Tooltip title="The percentage of completion of tasks assigned to this category">
+                      <Tooltip title="此分類中任務的完成百分比">
                         <span style={{ opacity: 0.8, fontStyle: "italic" }}>
                           {displayPercentage}
                         </span>
@@ -323,10 +323,10 @@ const Categories = () => {
             })}
           </CategoryElementsContainer>
         ) : (
-          <p>You don't have any categories</p>
+          <p>您尚未建立任何分類</p>
         )}
         <AddContainer>
-          <h2>Add New Category</h2>
+          <h2>新增分類</h2>
           <CustomEmojiPicker
             emoji={typeof emoji === "string" ? emoji : undefined}
             setEmoji={setEmoji}
@@ -337,8 +337,8 @@ const Categories = () => {
           <InputThemeProvider>
             <CategoryInput
               required
-              label="Category name"
-              placeholder="Enter category name"
+              label="分類名稱"
+              placeholder="輸入分類名稱"
               value={name}
               onChange={handleNameChange}
               error={nameError !== ""}
@@ -363,13 +363,13 @@ const Categories = () => {
             onClick={handleAddCategory}
             disabled={name.length > CATEGORY_NAME_MAX_LENGTH}
           >
-            Create Category
+            建立分類
           </AddCategoryButton>
         </AddContainer>
         <Dialog open={openDeleteDialog} onClose={() => setOpenDeleteDialog(false)}>
           <CustomDialogTitle
-            title="Delete this category?"
-            subTitle="This action cannot be undone."
+            title="刪除此分類？"
+            subTitle="此操作無法復原。"
             icon={<DeleteRounded />}
             onClose={() => setOpenDeleteDialog(false)}
           />
@@ -386,7 +386,7 @@ const Categories = () => {
                   <AssociatedTasksAccordion>
                     <AccordionSummary expandIcon={<ExpandMoreRounded />}>
                       <span style={{ fontWeight: 600 }}>
-                        {`Associated Tasks (${getAssociatedTasks(selectedCategoryId!).length})`}
+                        {`關聯任務 (${getAssociatedTasks(selectedCategoryId!).length})`}
                       </span>
                     </AccordionSummary>
                     <AccordionDetails sx={{ p: 0, m: 0 }}>
@@ -404,12 +404,12 @@ const Categories = () => {
                 )}
               </>
             ) : (
-              <p style={{ textAlign: "center" }}>Category not found</p>
+              <p style={{ textAlign: "center" }}>找不到分類</p>
             )}
           </DialogContent>
 
           <DialogActions>
-            <DialogBtn onClick={() => setOpenDeleteDialog(false)}>Cancel</DialogBtn>
+            <DialogBtn onClick={() => setOpenDeleteDialog(false)}>取消</DialogBtn>
             <DialogBtn
               onClick={() => {
                 handleDelete(selectedCategoryId);
@@ -417,7 +417,7 @@ const Categories = () => {
               }}
               color="error"
             >
-              <DeleteRounded /> &nbsp; Delete
+              <DeleteRounded /> &nbsp; 刪除
             </DialogBtn>
           </DialogActions>
         </Dialog>
@@ -436,7 +436,7 @@ const Categories = () => {
           }}
         >
           <CustomDialogTitle
-            title="Edit Category"
+            title="編輯分類"
             subTitle={editLastSaveLabel}
             icon={<Edit />}
             onClose={handleEditDimiss}
@@ -461,8 +461,8 @@ const Categories = () => {
               }}
             >
               <EditNameInput
-                label="Enter category name"
-                placeholder="Enter category name"
+                label="輸入分類名稱"
+                placeholder="輸入分類名稱"
                 value={editName}
                 error={editNameError !== "" || editName.length === 0}
                 onChange={handleEditNameChange}
@@ -470,7 +470,7 @@ const Categories = () => {
                   editNameError
                     ? editNameError
                     : editName.length === 0
-                      ? "Category name is required"
+                      ? "請輸入分類名稱"
                       : `${editName.length}/${CATEGORY_NAME_MAX_LENGTH}`
                 }
               />
@@ -485,12 +485,12 @@ const Categories = () => {
             </div>
           </DialogContent>
           <DialogActions>
-            <DialogBtn onClick={handleEditDimiss}>Cancel</DialogBtn>
+            <DialogBtn onClick={handleEditDimiss}>取消</DialogBtn>
             <DialogBtn
               onClick={handleEditCategory}
               disabled={editNameError !== "" || editName.length === 0}
             >
-              <SaveRounded /> &nbsp; Save
+              <SaveRounded /> &nbsp; 儲存
             </DialogBtn>
           </DialogActions>
         </Dialog>

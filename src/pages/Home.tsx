@@ -67,11 +67,11 @@ const Home = () => {
   const timeGreeting = useMemo(() => {
     const currentHour = new Date().getHours();
     if (currentHour < 12 && currentHour >= 5) {
-      return "Good morning";
+      return "早安";
     } else if (currentHour < 18 && currentHour > 12) {
-      return "Good afternoon";
+      return "午安";
     } else {
-      return "Good evening";
+      return "晚安";
     }
   }, []);
 
@@ -80,17 +80,17 @@ const Home = () => {
     const percentage = taskStats.completedTaskPercentage;
     switch (true) {
       case percentage === 0:
-        return "No tasks completed yet. Keep going!";
+        return "尚未完成任何任務，繼續加油！";
       case percentage === 100:
-        return "Congratulations! All tasks completed!";
+        return "恭喜！所有任務已完成！";
       case percentage >= 75:
-        return "Almost there!";
+        return "快完成了！";
       case percentage >= 50:
-        return "You're halfway there! Keep it up!";
+        return "已經完成一半了！繼續加油！";
       case percentage >= 25:
-        return "You're making good progress.";
+        return "進展順利。";
       default:
-        return "You're just getting started.";
+        return "才剛開始而已。";
     }
   }, [taskStats.completedTaskPercentage]);
 
@@ -119,7 +119,7 @@ const Home = () => {
 
       {!isOnline && (
         <Offline>
-          <WifiOff /> You're offline but you can use the app!
+          <WifiOff /> 您目前處於離線狀態，但仍可使用此應用程式！
         </Offline>
       )}
       {tasks.length > 0 && settings.showProgressBar && (
@@ -131,14 +131,14 @@ const Home = () => {
                 updateShowProgressBar(false);
                 showToast(
                   <span style={{ display: "flex", alignItems: "center", gap: 4 }}>
-                    Progress bar hidden. You can enable it in settings.
+                    進度條已隱藏。您可以在設定中重新啟用。
                     <Button
                       variant="contained"
                       sx={{ p: "12px 32px" }}
                       onClick={() => updateShowProgressBar(true)}
                       startIcon={<UndoRounded />}
                     >
-                      Undo
+                      復原
                     </Button>
                   </span>,
                 );
@@ -152,7 +152,7 @@ const Home = () => {
                 value={taskStats.completedTaskPercentage}
                 size={64}
                 thickness={5}
-                aria-label="Progress"
+                aria-label="進度"
                 glow={settings.enableGlow}
               />
 
@@ -170,8 +170,8 @@ const Home = () => {
             <TaskCountTextContainer>
               <TaskCountHeader>
                 {taskStats.completedTasksCount === 0
-                  ? `You have ${tasks.length} task${tasks.length > 1 ? "s" : ""} to complete.`
-                  : `You've completed ${taskStats.completedTasksCount} out of ${tasks.length} tasks.`}
+                  ? `您有 ${tasks.length} 個任務待完成。`
+                  : `您已完成 ${tasks.length} 個任務中的 ${taskStats.completedTasksCount} 個。`}
               </TaskCountHeader>
               <TaskCompletionText>{taskCompletionText}</TaskCompletionText>
               {taskStats.tasksWithDeadlineTodayCount > 0 && (
@@ -182,9 +182,9 @@ const Home = () => {
                   }}
                 >
                   <TodayRounded sx={{ fontSize: "20px", verticalAlign: "middle" }} />
-                  &nbsp;Tasks due today:&nbsp;
+                  &nbsp;今日到期任務：&nbsp;
                   <span translate="no">
-                    {new Intl.ListFormat("en", { style: "long" }).format(
+                    {new Intl.ListFormat("zh-TW", { style: "long" }).format(
                       taskStats.tasksDueTodayNames,
                     )}
                   </span>
@@ -204,12 +204,12 @@ const Home = () => {
         <TasksList />
       </Suspense>
       {!isMobile && (
-        <Tooltip title={tasks.length > 0 ? "Add New Task" : "Add Task"} placement="left">
+        <Tooltip title={tasks.length > 0 ? "新增任務" : "新增任務"} placement="left">
           <AddButton
             animate={tasks.length === 0}
             glow={settings.enableGlow}
             onClick={() => n("add")}
-            aria-label="Add Task"
+            aria-label="新增任務"
           >
             <AddRounded style={{ fontSize: "44px" }} />
           </AddButton>

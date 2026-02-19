@@ -164,7 +164,7 @@ export const showToast = (
               onClick={() => toast.dismiss(t.id)}
               sx={{ mt: "8px", w: "100%", p: "12px 24px", fontSize: "16px", borderRadius: "16px" }}
             >
-              Dismiss
+              關閉
             </Button>
           </div>
         )}

@@ -170,12 +170,12 @@ export const ProfileSidebar = () => {
           if (systemInfo.os === "Windows") {
             setOpenInstalledDialog(true);
           } else {
-            showToast("App installed successfully!");
+            showToast("應用已成功安裝！");
           }
           handleClose();
         }
         if (choiceResult.outcome === "dismissed") {
-          showToast("Installation dismissed.", { type: "error" });
+          showToast("安裝已取消。", { type: "error" });
         }
       });
     }
@@ -202,7 +202,7 @@ export const ProfileSidebar = () => {
 
   return (
     <Container>
-      <Tooltip title={<div translate={name ? "no" : "yes"}>{name || "User"}</div>}>
+      <Tooltip title={<div translate={name ? "no" : "yes"}>{name || "使用者"}</div>}>
         <IconButton
           aria-label="Sidebar"
           aria-controls={open ? "basic-menu" : undefined}
@@ -213,7 +213,7 @@ export const ProfileSidebar = () => {
         >
           <UserAvatar
             src={avatarSrc || undefined}
-            alt={name || "User"}
+            alt={name || "使用者"}
             hasimage={profilePicture !== null}
             pulse={
               user.name === defaultUser.name &&
@@ -228,7 +228,7 @@ export const ProfileSidebar = () => {
                 ...prevUser,
                 profilePicture: null,
               }));
-              showToast("Error in profile picture URL", { type: "error" });
+              showToast("個人頭像網址錯誤", { type: "error" });
               throw new Error("Error in profile picture URL");
             }}
           >
@@ -261,9 +261,9 @@ export const ProfileSidebar = () => {
 
         <MenuLink to="/">
           <StyledMenuItem onClick={handleClose}>
-            <TaskAltRounded /> &nbsp; Tasks
+            <TaskAltRounded /> &nbsp; 任務
             {tasks.filter((task) => !task.done).length > 0 && (
-              <Tooltip title={`${tasks.filter((task) => !task.done).length} tasks to do`}>
+              <Tooltip title={`${tasks.filter((task) => !task.done).length} 項待辦任務`}>
                 <MenuLabel>
                   {tasks.filter((task) => !task.done).length > 99
                     ? "99+"
@@ -276,35 +276,35 @@ export const ProfileSidebar = () => {
 
         <MenuLink to="/add">
           <StyledMenuItem onClick={handleClose}>
-            <AddRounded /> &nbsp; Add Task
+            <AddRounded /> &nbsp; 新增任務
           </StyledMenuItem>
         </MenuLink>
 
         {settings.enableCategories !== undefined && settings.enableCategories && (
           <MenuLink to="/categories">
             <StyledMenuItem onClick={handleClose}>
-              <CategoryRounded /> &nbsp; Categories
+              <CategoryRounded /> &nbsp; 分類
             </StyledMenuItem>
           </MenuLink>
         )}
 
         <MenuLink to="/purge">
           <StyledMenuItem onClick={handleClose}>
-            <DeleteForeverRounded /> &nbsp; Purge Tasks
+            <DeleteForeverRounded /> &nbsp; 清除任務
           </StyledMenuItem>
         </MenuLink>
 
         <MenuLink to="/transfer">
           <StyledMenuItem onClick={handleClose}>
-            <GetAppRounded /> &nbsp; Transfer
+            <GetAppRounded /> &nbsp; 匯入/匯出
           </StyledMenuItem>
         </MenuLink>
 
         <MenuLink to="/sync">
           <StyledMenuItem onClick={handleClose}>
-            <PhonelinkRounded /> &nbsp; Sync Devices
+            <PhonelinkRounded /> &nbsp; 同步裝置
             {user.lastSyncedAt && (
-              <Tooltip title={`Last synced ${timeAgo(new Date(user.lastSyncedAt))}`}>
+              <Tooltip title={`上次同步 ${timeAgo(new Date(user.lastSyncedAt))}`}>
                 <MenuLabel>
                   <span>
                     <AccessTimeFilledRounded style={{ fontSize: "16px" }} />
@@ -330,11 +330,11 @@ export const ProfileSidebar = () => {
 
         <StyledDivider />
 
-        <MenuLink to="https://github.com/maciekt07/TodoApp">
+        <MenuLink to="https://github.com/wangsc2024/TodoApp">
           <StyledMenuItem translate="no">
             <GitHub className="GitHubIcon" /> &nbsp; Github{" "}
             {stars && (
-              <Tooltip title={`${stars} stars on Github`}>
+              <Tooltip title={`${stars} GitHub 星星`}>
                 <MenuLabel clr="#ff9d00">
                   <span>
                     <StarRounded style={{ fontSize: "18px" }} />
@@ -346,11 +346,11 @@ export const ProfileSidebar = () => {
           </StyledMenuItem>
         </MenuLink>
 
-        <MenuLink to="https://github.com/maciekt07/TodoApp/issues/new">
+        <MenuLink to="https://github.com/wangsc2024/TodoApp/issues/new">
           <StyledMenuItem>
-            <BugReportRounded className="BugReportRoundedIcon" /> &nbsp; Report Issue{" "}
+            <BugReportRounded className="BugReportRoundedIcon" /> &nbsp; 回報問題{" "}
             {Boolean(issuesCount || issuesCount === 0) && (
-              <Tooltip title={`${issuesCount} open issues`}>
+              <Tooltip title={`${issuesCount} 未解決問題`}>
                 <MenuLabel clr="#3bb61c">
                   <span>
                     <AdjustRounded style={{ fontSize: "18px" }} />
@@ -367,7 +367,7 @@ export const ProfileSidebar = () => {
             <BmcIcon className="bmc-icon" src={theme.darkmode ? bmcLogoLight : bmcLogo} /> &nbsp;
             Buy me a coffee{" "}
             {bmcSupporters && (
-              <Tooltip title={`${bmcSupporters} supporters on Buy me a coffee`}>
+              <Tooltip title={`${bmcSupporters} Buy Me a Coffee 贊助者`}>
                 <MenuLabel clr="#f93c58">
                   <span>
                     <FavoriteRounded style={{ fontSize: "16px" }} />
@@ -388,7 +388,7 @@ export const ProfileSidebar = () => {
             ) : (
               <InstallDesktopRounded className="InstallDesktopRoundedIcon" />
             )}
-            &nbsp; Install App
+            &nbsp; 安裝應用
           </StyledMenuItem>
         )}
 
@@ -400,9 +400,9 @@ export const ProfileSidebar = () => {
               onClick={() => {
                 showToast(
                   <div style={{ display: "inline-block" }}>
-                    To install the app on iOS Safari, click on{" "}
-                    <IosShareRounded sx={{ verticalAlign: "middle", mb: "4px" }} /> and then{" "}
-                    <span style={{ fontWeight: "bold" }}>Add to Home Screen</span>.
+                    若要在 iOS Safari 安裝此應用，請點擊{" "}
+                    <IosShareRounded sx={{ verticalAlign: "middle", mb: "4px" }} />{" "}
+                    分享按鈕，然後選擇 <span style={{ fontWeight: "bold" }}>「加入主畫面」</span>。
                   </div>,
                   { type: "blank", duration: 8000 },
                 );
@@ -410,7 +410,7 @@ export const ProfileSidebar = () => {
               }}
             >
               <PhoneIphoneRounded />
-              &nbsp; Install App
+              &nbsp; 安裝應用
             </StyledMenuItem>
           )}
 
@@ -422,7 +422,7 @@ export const ProfileSidebar = () => {
           }}
           sx={{ color: "#ff4040 !important" }}
         >
-          <Logout className="LogoutIcon" /> &nbsp; Logout
+          <Logout className="LogoutIcon" /> &nbsp; 登出
         </StyledMenuItem>
 
         <ProfileOptionsBottom>
@@ -433,7 +433,7 @@ export const ProfileSidebar = () => {
               handleClose();
             }}
           >
-            <SettingsRounded className="SettingsRoundedIcon" /> &nbsp; Settings
+            <SettingsRounded className="SettingsRoundedIcon" /> &nbsp; 設定
             {JSON.stringify(settings) === JSON.stringify(defaultUser.settings) &&
               user.darkmode === defaultUser.darkmode &&
               user.theme === defaultUser.theme &&
@@ -450,7 +450,7 @@ export const ProfileSidebar = () => {
               >
                 {name ? name[0].toUpperCase() : undefined}
               </UserAvatar>
-              <h4 style={{ margin: 0, fontWeight: 600 }}> {name || "User"}</h4>{" "}
+              <h4 style={{ margin: 0, fontWeight: 600 }}> {name || "使用者"}</h4>{" "}
               {(name === null || name === "") && profilePicture === null && <PulseMenuLabel />}
             </ProfileMenuItem>
           </MenuLink>
@@ -459,7 +459,7 @@ export const ProfileSidebar = () => {
 
           <CreditsContainer translate="no">
             <span style={{ display: "flex", alignItems: "center" }}>
-              Made with &nbsp;
+              製作 &nbsp;
               <Favorite sx={{ fontSize: "14px" }} />
             </span>
             <span style={{ marginLeft: "6px", marginRight: "4px" }}>by</span>
@@ -474,7 +474,7 @@ export const ProfileSidebar = () => {
             {lastUpdate && (
               <Tooltip title={timeAgo(new Date(lastUpdate))}>
                 <span>
-                  Last update:{" "}
+                  最後更新：{" "}
                   {new Intl.DateTimeFormat(navigator.language, {
                     dateStyle: "long",
                     timeStyle: "medium",
@@ -488,18 +488,15 @@ export const ProfileSidebar = () => {
 
       <Dialog open={openInstalledDialog} onClose={() => setOpenInstalledDialog(false)}>
         <CustomDialogTitle
-          title="App installed successfully!"
-          subTitle="The app is now running as a PWA."
+          title="應用已成功安裝！"
+          subTitle="應用已作為 PWA 運行。"
           icon={<DownloadDoneRounded />}
           onClose={() => setOpenInstalledDialog(false)}
         />
-        <DialogContent>
-          You can access it from your home screen, with offline support and features like shortcuts
-          and badges.
-        </DialogContent>
+        <DialogContent>您可以從主畫面存取，支援離線使用及捷徑和徽章等功能。</DialogContent>
         <DialogActions>
           <DialogBtn onClick={() => setOpenInstalledDialog(false)}>
-            <ThumbUpRounded /> &nbsp; Got it
+            <ThumbUpRounded /> &nbsp; 知道了
           </DialogBtn>
         </DialogActions>
       </Dialog>

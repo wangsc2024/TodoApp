@@ -1,170 +1,165 @@
-<!-- <p align="center">
-<img src="https://raw.githubusercontent.com/maciekt07/TodoApp/main/public/logo192.png" width="128px" />
-</p> -->
+# 📝 Todo App — Firebase 增強版
 
-# 📝React.js Todo App
+<p align="center"><i>基於 <a href="https://github.com/maciekt07/TodoApp">maciekt07/TodoApp</a> 的 fork，新增 Firebase Email 認證、Firestore 跨裝置即時同步，以及正體中文介面。</i></p>
 
-<p align="center"><i>A fast and modern Todo app built with React, featuring task sharing via link, P2P Task Sync with WebRTC, theme customization, offline usage as a PWA, and caching for smooth performance.</i></p>
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/wangsc2024/TodoApp?color=%23b624ff)
+![GitHub created at](https://img.shields.io/github/created-at/wangsc2024/TodoApp?color=%23b624ff)
+![GitHub last commit](https://img.shields.io/github/last-commit/wangsc2024/TodoApp?color=%23b624ff)
 
-<img src="https://raw.githubusercontent.com/maciekt07/TodoApp/main/screenshots/baner.png" />
-
-## [https://react-cool-todo-app.netlify.app/](https://react-cool-todo-app.netlify.app/)
-
-[![Netlify Status](https://api.netlify.com/api/v1/badges/e3b07d34-f0da-4280-9076-fd40eea893c6/deploy-status)](https://app.netlify.com/sites/react-cool-todo-app/deploys)
-![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/maciekt07/TodoApp?color=%23b624ff)
-![GitHub created at ](https://img.shields.io/github/created-at/maciekt07/TodoApp?color=%23b624ff)
-![GitHub last commit](https://img.shields.io/github/last-commit/maciekt07/TodoApp?color=%23b624ff)
-
-<!-- <p align="center">
-<img src="https://raw.githubusercontent.com/maciekt07/TodoApp/main/screenshots/iPhone%20Mockup%20black.png" width="400px" />
-</p> -->
-
-## 💻 Tech Stack
+## 💻 技術棧
 
 <ul style="display: flex; flex-direction: column; gap:10px;">
   <li style="vertical-align: middle;">
-    <img src="https://go-skill-icons.vercel.app/api/icons?i=react" alt="react" width="24" style="vertical-align: middle; margin-right: 4px;" /> React
-  </li>
-    <li style="vertical-align: middle;">
-    <img src="https://go-skill-icons.vercel.app/api/icons?i=typescript" alt="typescript" width="20" style="vertical-align: middle;margin-right: 4px;" /> Typescript
-  </li>
-    <li style="vertical-align: middle;">
-    <img src="https://go-skill-icons.vercel.app/api/icons?i=vite" alt="vite" width="24" style="vertical-align: middle;margin-right: 4px;" /> Vite
+    <img src="https://go-skill-icons.vercel.app/api/icons?i=react" alt="react" width="24" style="vertical-align: middle; margin-right: 4px;" /> React 19
   </li>
   <li style="vertical-align: middle;">
-    <img src="https://go-skill-icons.vercel.app/api/icons?i=vitest" alt="vitest" width="24" style="vertical-align: middle;margin-right: 4px;" /> Vitest
+    <img src="https://go-skill-icons.vercel.app/api/icons?i=typescript" alt="typescript" width="20" style="vertical-align: middle; margin-right: 4px;" /> TypeScript
   </li>
   <li style="vertical-align: middle;">
-    <img src="https://go-skill-icons.vercel.app/api/icons?i=emotion" alt="emotion" width="24" style="vertical-align: middle;margin-right: 4px;" /> Emotion
+    <img src="https://go-skill-icons.vercel.app/api/icons?i=vite" alt="vite" width="24" style="vertical-align: middle; margin-right: 4px;" /> Vite
   </li>
-    <li style="vertical-align: middle;">
-    <img src="https://go-skill-icons.vercel.app/api/icons?i=mui" alt="mui" width="24" style="vertical-align: middle;margin-right: 4px;" /> Material UI (MUI)
+  <li style="vertical-align: middle;">
+    <img src="https://go-skill-icons.vercel.app/api/icons?i=vitest" alt="vitest" width="24" style="vertical-align: middle; margin-right: 4px;" /> Vitest
+  </li>
+  <li style="vertical-align: middle;">
+    <img src="https://go-skill-icons.vercel.app/api/icons?i=firebase" alt="firebase" width="24" style="vertical-align: middle; margin-right: 4px;" /> Firebase (Auth + Firestore)
+  </li>
+  <li style="vertical-align: middle;">
+    <img src="https://go-skill-icons.vercel.app/api/icons?i=emotion" alt="emotion" width="24" style="vertical-align: middle; margin-right: 4px;" /> Emotion
+  </li>
+  <li style="vertical-align: middle;">
+    <img src="https://go-skill-icons.vercel.app/api/icons?i=mui" alt="mui" width="24" style="vertical-align: middle; margin-right: 4px;" /> Material UI (MUI)
   </li>
 </ul>
 
-## ⚡ Features
+## ⚡ 功能特色
 
-### 🔗 Share Tasks by Link or QR Code
+### 🔐 Firebase Email 認證
 
-Easily share your tasks with others using a link or QR code.
+透過 Firebase Authentication 提供安全的帳號系統：
 
-**[Example Link](https://react-cool-todo-app.netlify.app/share?task=N4IgJg9gdgpiBcAzAhgGwM4wDQgA4EspYwEAXAJwFdsQpkBbOeEAdRgCN19SYACAERgA3GKgi5GUUiBxgY6AMbl8uUvmgIQAYXIxkPXsl6pkUMIQDmvXMgt8A7twAWvAEp6FpAHQArdL0QIcl4FVHwYKS9eJ1JSXHR4AHpE+1SvAE8ISlJKdhgvBQh6FP0FJwB+IQBedgBZAGsoRABpAA0ASQAxAEEADgAyUiqAJgBmdH7kdgB9MtNYVCrEXRgtCDktBlwvIIsZEBh6CB98TQBGRABOMDOAWgvRxAVb4YAGV7B7xAAWdnZ9wpiciaADE7AAbMNvohEPswPomCA3sMAKy3V7fF6vAAqrzO8DOl3gr3BXleAHZRgAtOF6MBhWCaZFojEvUa4-FnXrE15k940nAKBEWILpBAAbVA+BIzFew0uwwU7GQaMQ4Jgw1u3zOCkx7BRyHJtwUKMuyFeyGQMAUiBgo32dEYmhYQXq+0Ox1OzAeGoBECBoKhvRgMJAAF8sFKZWdwb1yWdUdryd9waMyaMcI7EWtzFA9jgPSdzogDaqYK9YYL-UFQeCbsNQ2GALo4EzoUgAZWQIiZcpZmLeHPgb3go15oxR1PDQA&userName=Maciej)**
+- 電子郵件註冊 / 登入
+- 忘記密碼 / 密碼重設郵件
+- 訪客模式（無需登入即可使用）
+- 正體中文介面
 
-<img src="https://raw.githubusercontent.com/maciekt07/TodoApp/main/screenshots/ShareDialog.png" width="300px" alt="Shared Task" />
+### ☁️ Firestore 跨裝置即時同步
 
-### 🤖 AI Emoji Suggestions
+登入後自動將任務同步至雲端，支援多裝置即時更新：
 
-This feature uses Chrome’s experimental `window.LanguageModel` API powered by **Gemini Nano** — an on-device LLM.
+- 首次登入自動合併本地與雲端資料
+- Diff-based 增量寫入，搭配 1.5 秒 debounce 減少請求
+- Real-time listeners 即時接收其他裝置的變更
+- Persistent local cache + multi-tab 支援（PWA 離線可用）
 
-⚠️ Requires **Chrome Canary 128+** with the **Gemini Nano model installed** - [Setup guide](https://docs.google.com/document/d/1VG8HIyz361zGduWgNG7R_R8Xkv0OOJ8b5C9QKeCjU0c/view?pli=1&tab=t.0#heading=h.witohboigk0o)
+### 🔗 透過連結或 QR Code 分享任務
 
-Code: [src/components/EmojiPicker.tsx](https://github.com/maciekt07/TodoApp/blob/main/src/components/EmojiPicker.tsx#L116)
+輕鬆將任務分享給他人，支援連結與 QR Code 兩種方式。
 
-<img src="https://raw.githubusercontent.com/maciekt07/TodoApp/main/screenshots/emoji-ai.gif" alt="AI Emoji" width="360px" style="border-radius:12px" />
+### 🤖 AI Emoji 建議
 
-### 🔄 P2P Task Sync with WebRTC
+使用 Chrome 內建的 `window.LanguageModel` API（由 Gemini Nano 驅動），根據任務名稱推薦合適的 Emoji。
 
-Securely sync all the data between devices using peer-to-peer WebRTC connections. Devices pair via QR code, and your data is transferred directly between them — only minimal server involvement for connection setup, with no data stored or processed in the cloud.
+> ⚠️ 需要 Chrome Canary 128+ 並安裝 Gemini Nano 模型
 
-- Tasks and categories are auto-merged based on recent edits or deletions
-- For settings and other data, you choose which device to sync from
+### 🔄 P2P 裝置同步 (WebRTC)
 
-<video src="https://github-production-user-asset-6210df.s3.amazonaws.com/85953204/459582059-1f2fd620-a64e-42e2-be4f-f17e07fba9a2.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20250626%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250626T185723Z&X-Amz-Expires=300&X-Amz-Signature=514e1513d883fab2b5b895d9075d0e0a522497e600e2577d1d11a341ab95aa6f&X-Amz-SignedHeaders=host" controls></video>
+透過 WebRTC 點對點連線安全同步資料。裝置間透過 QR Code 配對，資料直接在裝置間傳輸，無需經過雲端伺服器。
 
-### 🎨 Color Themes & Dark Mode
+- 任務與分類依最近編輯或刪除自動合併
+- 設定等其他資料可選擇同步來源裝置
 
-Choose from various color themes and toggle between light and dark modes to suit your preferences.
+### 🎨 色彩主題與深色模式
 
-<img src="https://raw.githubusercontent.com/maciekt07/TodoApp/main/screenshots/settings.png" width="500px" />
+提供多種色彩主題選擇，支援淺色/深色模式切換。
 
-### 🗣️ Task Reading Aloud
+### 🗣️ 任務朗讀
 
-Option to have tasks read aloud using the native `SpeechSynthesis` API, with a selection of voices to choose from.
+使用瀏覽器原生 `SpeechSynthesis` API 朗讀任務內容，可選擇不同語音。
 
-<img src="https://raw.githubusercontent.com/maciekt07/TodoApp/main/screenshots/ReadAloud.png" width="260px" alt="Task Reading Aloud" />
+### 📥 匯入/匯出任務
 
-### 📥 Import/Export Tasks
+將任務匯出為 JSON 檔案備份，或從 JSON 檔案匯入還原。[範例匯入檔案](example-import.json)
 
-Users can import and export tasks to/from JSON files. This feature allows users to back up their tasks or transfer them to other devices easily. [Example Import File](https://github.com/maciekt07/TodoApp/blob/main/example-import.json)
+### 📴 漸進式網路應用 (PWA)
 
-### 📴 Progressive Web App (PWA)
+可安裝至裝置，支援離線使用，具備原生應用般的捷徑與應用徽章功能。
 
-This app is a Progressive Web App (PWA), which means it can be installed on your device, **used even when you're offline** and behave like a native app with shortcuts and app badges.
+### ⌨️ 鍵盤快捷鍵
 
-<img src="https://raw.githubusercontent.com/maciekt07/TodoApp/main/screenshots/pwaTaskBar.png" alt="taskbar" width="260px" />
+| 快捷鍵                         | 功能                |
+| ------------------------------ | ------------------- |
+| `Ctrl+S` / `Cmd+S`             | 快速匯出任務為 JSON |
+| `Ctrl+Shift+L` / `Cmd+Shift+L` | 切換深色模式        |
 
-### 🔄 Update Prompt
+### 📱 自訂啟動畫面
 
-The app features a custom update prompt that notifies users when a new version is available, allowing for easy refresh to access the latest improvements.
+自動產生適用於各種 iOS/iPadOS 裝置的啟動畫面，支援淺色與深色模式。
 
-<img src="https://raw.githubusercontent.com/maciekt07/TodoApp/main/screenshots/UpdatePrompt.png" alt="update prompt" width="260px" />
-
-### 📱 Custom Splash Screens
-
-The app automatically generates custom splash screens from a single HTML template for various iOS and iPadOS devices in both light and dark modes. These splash screens provide a smooth, native-like launch experience when the app is opened as a PWA.
-
-<img src="https://raw.githubusercontent.com/maciekt07/TodoApp/main/screenshots/SplashScreen.png" alt="Splash Screen Example" width="450px" />
-
-To generate splash screens:
+產生啟動畫面：
 
 ```bash
 npm run generate-splash
 ```
 
-Code: [scripts/splash-screens](https://github.com/maciekt07/TodoApp/blob/main/scripts/splash-screens)
+## 👨‍💻 安裝與使用
 
-## 👨‍💻 Installation
-
-To install and run the project locally, follow these steps:
-
-1. Clone the repository:
+1. Clone 專案：
 
 ```bash
-git clone https://github.com/maciekt07/TodoApp.git
+git clone https://github.com/wangsc2024/TodoApp.git
 ```
 
-2. Navigate to the project directory:
+2. 進入專案目錄：
 
 ```bash
 cd TodoApp
 ```
 
-3. Install the dependencies:
+3. 安裝相依套件：
 
 ```bash
 npm install
 ```
 
-4. Start the development server:
+4. 設定 Firebase 環境變數：
+
+```bash
+cp .env.example .env
+# 編輯 .env，填入你的 Firebase 專案設定
+```
+
+> [!NOTE] > `.env.example` 包含所需的環境變數範本。你需要在 [Firebase Console](https://console.firebase.google.com/) 建立專案，取得 API Key、Project ID 等設定值。
+
+5. 啟動開發伺服器：
 
 ```bash
 npm run dev
 ```
 
-The app will now be running at [http://localhost:5173/](http://localhost:5173/).
+應用程式將在 [http://localhost:5173/](http://localhost:5173/) 運行。
 
 > [!TIP]
-> For mobile device testing, use `npm run dev:host` to preview the app on your local network with HTTPS (required for camera features) and a QR code in the terminal for quick access. To enable PWA features in development, see [vite.config.ts](vite.config.ts).
+> 行動裝置測試請使用 `npm run dev:host`，可在區域網路以 HTTPS 預覽（相機功能需要 HTTPS），終端機會顯示 QR Code 方便掃描。如需在開發模式啟用 PWA 功能，請參閱 [vite.config.ts](vite.config.ts)。
 
-## 📷 Screenshots
+### Firestore 安全規則
+
+專案包含 `firestore.rules` 檔案，確保每位使用者只能存取自己的資料。請透過 Firebase CLI 部署：
+
+```bash
+firebase deploy --only firestore:rules
+```
+
+## 📷 截圖
 
 <img src="https://raw.githubusercontent.com/maciekt07/TodoApp/main/screenshots/ss1.png" width="300px" />
 <img src="https://raw.githubusercontent.com/maciekt07/TodoApp/main/screenshots/ss2.png" width="300px" />
-
 <img src="https://raw.githubusercontent.com/maciekt07/TodoApp/main/screenshots/ss3.png" width="300px" />
-
-<!-- <img src="https://raw.githubusercontent.com/maciekt07/TodoApp/main/screenshots/ss4.png" width="300px" />
-
-<img src="https://raw.githubusercontent.com/maciekt07/TodoApp/main/screenshots/ss5.png" width="300px" />
-
-<img src="https://raw.githubusercontent.com/maciekt07/TodoApp/main/screenshots/ss6.png" width="300px" /> -->
 
 <img src="https://raw.githubusercontent.com/maciekt07/TodoApp/main/screenshots/sspc1.png" width="650px" />
 
-## 🚀 Performance
-
-<img src="https://raw.githubusercontent.com/maciekt07/TodoApp/main/screenshots/performance.png" width="600px" />
-
 ## Credits
 
-Made with ❤️ by [maciekt07](https://github.com/maciekt07), licensed under [MIT](https://github.com/maciekt07/TodoApp/blob/main/LICENSE).
+原始專案由 [maciekt07](https://github.com/maciekt07) 開發，採用 [MIT 授權](LICENSE)。
+
+Fork 增強功能（Firebase 認證、Firestore 同步、正體中文介面）由 [wangsc2024](https://github.com/wangsc2024) 開發。

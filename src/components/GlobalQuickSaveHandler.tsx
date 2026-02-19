@@ -71,8 +71,8 @@ export const GlobalQuickSaveHandler = ({ children }: { children: ReactNode }) =>
       {children}
       <Dialog open={isOpen} onClose={() => handleClose(false)} fullWidth>
         <CustomDialogTitle
-          title="Quick Save"
-          subTitle="Save your current tasks instantly"
+          title="快速儲存"
+          subTitle="立即儲存目前的任務"
           icon={<SaveAltRounded />}
           onClose={() => handleClose(false)}
         />
@@ -85,7 +85,7 @@ export const GlobalQuickSaveHandler = ({ children }: { children: ReactNode }) =>
               fontSize: "1rem",
             }}
           >
-            Export all current tasks as a JSON file?
+            要將所有任務匯出為 JSON 檔案嗎？
           </Typography>
 
           <Typography
@@ -96,15 +96,14 @@ export const GlobalQuickSaveHandler = ({ children }: { children: ReactNode }) =>
               lineHeight: 1.5,
             }}
           >
-            Your tasks will be saved locally on your device, making it easy to restore your workflow
-            later or transfer to another device.
+            您的任務將儲存在裝置本地，方便日後還原或傳輸到其他裝置。
           </Typography>
         </DialogContent>
 
         <DialogActions>
-          <DialogBtn onClick={() => handleClose(false)}>Cancel</DialogBtn>
+          <DialogBtn onClick={() => handleClose(false)}>取消</DialogBtn>
           <DialogBtn onClick={() => handleClose(true)}>
-            <SaveAltRounded fontSize="small" /> &nbsp; Save
+            <SaveAltRounded fontSize="small" /> &nbsp; 儲存
           </DialogBtn>
         </DialogActions>
       </Dialog>

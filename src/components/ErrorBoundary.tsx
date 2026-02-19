@@ -67,7 +67,7 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
       error.message.includes("Failed to fetch dynamically imported") ||
       error.message.includes("is not a valid JavaScript")
     ) {
-      showToast("Reloading page", { type: "loading" });
+      showToast("正在重新載入頁面", { type: "loading" });
 
       const retries = parseInt(sessionStorage.getItem("reload_retries") || "0", 10);
 
@@ -101,7 +101,7 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
 
       return (
         <Container>
-          <ErrorHeader>Oops! An error occurred.</ErrorHeader>
+          <ErrorHeader>哎呀！發生錯誤了</ErrorHeader>
           <ErrorIconContainer>
             <TaskIcon scale={0.6} variant="error" />
           </ErrorIconContainer>
@@ -114,22 +114,22 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
             </span>
           </h3>
           <h2>
-            To fix it, try clearing your local files (cookies and cache) and then refresh the page.
-            If the problem persists, please report the issue via{" "}
+            要修復此問題，請嘗試清除本地檔案（Cookie 和快取），然後重新整理頁面。
+            如果問題持續發生，請透過{" "}
             <StyledLink translate="no" href="https://github.com/maciekt07/TodoApp/issues">
               Github Issues
             </StyledLink>
-            .
+            回報問題。
           </h2>
           <Alert severity="error" variant="filled" sx={{ mt: "-8px", mb: "18px" }}>
-            By cleaning app data, you will lose all of your tasks.
+            清除應用程式資料後，您將失去所有任務。
           </Alert>
           <div style={{ display: "flex", gap: "12px" }}>
             <StyledButton color="warning" onClick={() => location.reload()}>
-              <RefreshRounded /> &nbsp; Refresh Page
+              <RefreshRounded /> &nbsp; 重新整理頁面
             </StyledButton>
             <StyledButton color="error" onClick={this.handleOpenDialog}>
-              <DeleteForeverRounded /> &nbsp; Auto Clear
+              <DeleteForeverRounded /> &nbsp; 自動清除
             </StyledButton>
           </div>
 
@@ -140,7 +140,7 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
                 fontSize={18}
                 sx={{ display: "flex", alignItems: "center", gap: "6px" }}
               >
-                <DescriptionRounded /> Error stack
+                <DescriptionRounded /> 錯誤堆疊
               </Typography>
             </AccordionSummary>
             <AccordionDetails>
@@ -152,35 +152,33 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
 
           <pre>
             <UserDataLabel>
-              <DataObjectRounded /> &nbsp; User Data
+              <DataObjectRounded /> &nbsp; 使用者資料
             </UserDataLabel>
             <Button
               variant="outlined"
               sx={{ ml: "6px", my: "18px", p: "12px 20px", borderRadius: "14px" }}
               onClick={() => {
                 exportTasksToJson(tasks);
-                showToast(`Exported all tasks (${tasks.length})`);
+                showToast(`已匯出所有任務 (${tasks.length})`);
               }}
             >
-              <FileDownload /> &nbsp; Export Tasks To JSON
+              <FileDownload /> &nbsp; 匯出任務為 JSON
             </Button>
             <br />
             <code translate="no">{JSON.stringify(user, null, 4)}</code>
           </pre>
           <Dialog open={this.state.openClearDialog} onClose={this.handleCloseDialog}>
             <CustomDialogTitle
-              title="Clear Data"
-              subTitle="This action cannot be undone."
+              title="清除資料"
+              subTitle="此操作無法復原。"
               icon={<DeleteForeverRounded />}
               onClose={this.handleCloseDialog}
             />
-            <DialogContent>
-              Are you sure you want to clear all data? You will loose all of your tasks.
-            </DialogContent>
+            <DialogContent>確定要清除所有資料嗎？您將失去所有任務。</DialogContent>
             <DialogActions>
-              <DialogBtn onClick={this.handleCloseDialog}>Cancel</DialogBtn>
+              <DialogBtn onClick={this.handleCloseDialog}>取消</DialogBtn>
               <DialogBtn onClick={this.handleConfirmClearData} color="error">
-                Confirm
+                確認
               </DialogBtn>
             </DialogActions>
           </Dialog>

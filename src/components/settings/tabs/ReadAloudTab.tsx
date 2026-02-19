@@ -218,18 +218,18 @@ export default function ReadAloudTab() {
     <>
       {!("speechSynthesis" in window) && (
         <Alert severity="error">
-          <AlertTitle>Speech Synthesis Not Supported</AlertTitle>
-          Your browser does not support built in text-to-speech.
+          <AlertTitle>不支援語音合成</AlertTitle>
+          您的瀏覽器不支援內建的文字轉語音功能。
         </Alert>
       )}
       <CustomSwitch
         settingKey="enableReadAloud"
-        header="Enable Read Aloud"
-        text="Loads voices and shows Read Aloud in the task menu."
+        header="啟用朗讀"
+        text="載入語音並在任務選單中顯示朗讀選項。"
         disabled={!("speechSynthesis" in window)}
       />
       <ReadAloudWrapper active={readAloudEnabled} disabled={!readAloudEnabled}>
-        <SectionHeading>Play Sample</SectionHeading>
+        <SectionHeading>播放範例</SectionHeading>
         <Button
           variant="contained"
           disabled={!("speechSynthesis" in window)}
@@ -256,9 +256,9 @@ export default function ReadAloudTab() {
             setIsSampleReading((prev) => !prev);
           }}
         >
-          {isSampleReading ? <StopCircleRounded /> : <RecordVoiceOverRounded />} &nbsp; Play Sample
+          {isSampleReading ? <StopCircleRounded /> : <RecordVoiceOverRounded />} &nbsp; 播放範例
         </Button>
-        <SectionHeading>Voice Selection</SectionHeading>
+        <SectionHeading>語音選擇</SectionHeading>
         {filteredVoices.length !== 0 ? (
           <StyledSelect
             value={user.settings.voice}
@@ -321,14 +321,14 @@ export default function ReadAloudTab() {
                     }
                   />
                   {voice.default && systemInfo.os !== "iOS" && systemInfo.os !== "macOS" && (
-                    <span style={{ fontWeight: 600 }}>&nbsp; Default</span>
+                    <span style={{ fontWeight: 600 }}>&nbsp; 預設</span>
                   )}
                   {voice.localService === false && (
                     <span style={{ marginLeft: "auto", display: "flex", alignItems: "center" }}>
                       {!isOnline ? (
                         <CloudOffRounded sx={{ fontSize: "18px" }} />
                       ) : (
-                        <Tooltip title="Requires Internet Connection" placement="left">
+                        <Tooltip title="需要網路連線" placement="left">
                           <CloudQueueRounded sx={{ fontSize: "18px" }} />
                         </Tooltip>
                       )}
@@ -355,18 +355,18 @@ export default function ReadAloudTab() {
               return [
                 ...createVoiceGroup(
                   matchingLanguageVoices,
-                  `Your Language (${getLanguageRegion(navigator.language)})`,
+                  `您的語言 (${getLanguageRegion(navigator.language)})`,
                   "header-matching",
                 ),
-                ...createVoiceGroup(otherVoices, "Other Languages", "header-other"),
+                ...createVoiceGroup(otherVoices, "其他語言", "header-other"),
               ];
             })()}
           </StyledSelect>
         ) : (
           <NoVoiceStyles>
-            There are no voice styles available.
+            沒有可用的語音樣式。
             {user.settings.enableReadAloud && "speechSynthesis" in window && (
-              <Tooltip title="Refetch voices">
+              <Tooltip title="重新取得語音">
                 <IconButton
                   size="large"
                   onClick={() => setAvailableVoices(getAvailableVoices() ?? [])}
@@ -379,11 +379,11 @@ export default function ReadAloudTab() {
         )}
         {!isOnline && availableVoices.some((voice) => voice.localService === false) && (
           <Alert severity="warning" sx={{ mt: "8px" }} icon={<WifiOffRounded />}>
-            <AlertTitle>Offline Mode</AlertTitle>
-            You are currently offline. Some Voices may require an internet connection to work.
+            <AlertTitle>離線模式</AlertTitle>
+            您目前處於離線狀態。部分語音可能需要網路連線才能使用。
           </Alert>
         )}
-        <SectionHeading>Voice Volume</SectionHeading>
+        <SectionHeading>語音音量</SectionHeading>
         <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
           <VolumeSlider spacing={2} direction="row" alignItems="center">
             {/* <Tooltip title={voiceVolume ? "Mute" : "Unmute"}> */}
@@ -410,7 +410,7 @@ export default function ReadAloudTab() {
               aria-label="Volume Slider"
               valueLabelFormat={() => {
                 const vol = Math.floor(voiceVolume * 100);
-                return vol === 0 ? "Muted" : vol + "%";
+                return vol === 0 ? "靜音" : vol + "%";
               }}
               valueLabelDisplay="auto"
             />

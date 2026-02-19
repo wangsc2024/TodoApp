@@ -5,19 +5,22 @@ import {
   signOut,
   sendPasswordResetEmail,
   updateProfile,
+  deleteUser,
 } from "firebase/auth";
 import { auth } from "../services/firebase";
 import { AuthContext, type AuthContextType } from "../contexts/AuthContext";
 import { showToast } from "../utils";
+import { deleteAllUserData } from "../services/firestoreService";
 
 interface UseAuthReturn extends AuthContextType {
   signUp: (email: string, password: string, displayName?: string) => Promise<boolean>;
   signIn: (email: string, password: string) => Promise<boolean>;
   logout: () => Promise<void>;
   resetPassword: (email: string) => Promise<boolean>;
+  deleteAccount: () => Promise<boolean>;
 }
 
-function mapFirebaseError(code: string): string {
+export function mapFirebaseError(code: string): string {
   switch (code) {
     case "auth/email-already-in-use":
       return "此電子郵件已被註冊。";
@@ -33,6 +36,8 @@ function mapFirebaseError(code: string): string {
       return "電子郵件或密碼錯誤。";
     case "auth/too-many-requests":
       return "嘗試次數過多，請稍後再試。";
+    case "auth/requires-recent-login":
+      return "此操作需要重新登入，請登出後再次登入。";
     default:
       return "認證失敗，請再試一次。";
   }
@@ -88,5 +93,25 @@ export function useAuth(): UseAuthReturn {
     }
   }, []);
 
-  return { ...context, signUp, signIn, logout, resetPassword };
+  const deleteAccount = useCallback(async (): Promise<boolean> => {
+    const user = auth.currentUser;
+    if (!user) {
+      showToast("未登入，無法刪除帳號。", { type: "error" });
+      return false;
+    }
+    try {
+      // Delete all Firestore data first
+      await deleteAllUserData(user.uid);
+      // Then delete the Firebase Auth account
+      await deleteUser(user);
+      showToast("帳號已永久刪除。");
+      return true;
+    } catch (error: unknown) {
+      const message = mapFirebaseError((error as { code: string }).code);
+      showToast(message, { type: "error" });
+      return false;
+    }
+  }, []);
+
+  return { ...context, signUp, signIn, logout, resetPassword, deleteAccount };
 }

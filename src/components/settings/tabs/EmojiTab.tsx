@@ -16,7 +16,7 @@ const emojiStyles: OptionItem<EmojiStyle>[] = [
   { label: "Facebook", value: EmojiStyle.FACEBOOK },
   { label: "Discord", value: EmojiStyle.TWITTER },
   { label: "Google", value: EmojiStyle.GOOGLE },
-  { label: "Native", value: EmojiStyle.NATIVE },
+  { label: "原生", value: EmojiStyle.NATIVE },
 ].map(({ label, value }) => ({
   label,
   value,
@@ -42,7 +42,7 @@ export default function EmojiTab() {
 
   return (
     <>
-      <SectionHeading>Emoji Style</SectionHeading>
+      <SectionHeading>表情符號樣式</SectionHeading>
       <CustomRadioGroup
         options={emojiStyles}
         value={emojiStyleValue}
@@ -58,25 +58,25 @@ export default function EmojiTab() {
 
       {!isOnline && (
         <Alert severity="warning" sx={{ mt: "8px" }} icon={<WifiOffRounded />}>
-          <AlertTitle>Offline Mode</AlertTitle>
-          You are currently offline. Non-native emoji styles may not load.
+          <AlertTitle>離線模式</AlertTitle>
+          您目前處於離線狀態。非原生表情符號樣式可能無法載入。
         </Alert>
       )}
       <CustomSwitch
         settingKey="simpleEmojiPicker"
-        header="Simple Emoji Picker"
-        text="Show only recent emojis for faster loading."
+        header="簡易表情符號選擇器"
+        text="僅顯示最近使用的表情符號，加快載入速度。"
         disabled={!hasEmojiData}
-        disabledReason="No recent emojis available."
+        disabledReason="沒有最近使用的表情符號。"
       />
-      <SectionHeading>Emoji Data</SectionHeading>
-      <SectionDescription> Clear data about recently used emojis</SectionDescription>
+      <SectionHeading>表情符號資料</SectionHeading>
+      <SectionDescription>清除最近使用的表情符號資料</SectionDescription>
       <Button
         variant="contained"
         color="error"
         onClick={() => {
           localStorage.removeItem("epr_suggested");
-          showToast("Removed emoji data.");
+          showToast("已清除表情符號資料。");
           setHasEmojiData(false);
           if (user.settings.simpleEmojiPicker) {
             setUser((prev) => ({
@@ -86,7 +86,7 @@ export default function EmojiTab() {
           }
         }}
       >
-        <DeleteRounded /> &nbsp; Clear Emoji Data
+        <DeleteRounded /> &nbsp; 清除表情符號資料
       </Button>
     </>
   );

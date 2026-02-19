@@ -26,7 +26,7 @@ if (
   !localStorage.getItem("initialCachingComplete") &&
   process.env.NODE_ENV !== "development"
 ) {
-  showToast("Preparing app for offline use...", {
+  showToast("正在準備離線使用...", {
     duration: Infinity,
     type: "blank",
     id: "initial-offline-preparation",
@@ -47,7 +47,7 @@ registerSW({
     toast.dismiss("initial-offline-preparation");
 
     if (!localStorage.getItem("initialCachingComplete")) {
-      showToast("App is ready to work offline.", { type: "success" });
+      showToast("應用已可離線使用。", { type: "success" });
       localStorage.setItem("initialCachingComplete", "true");
     }
   },

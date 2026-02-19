@@ -46,14 +46,12 @@ const AddTask = () => {
 
   useEffect(() => {
     if (name.length > TASK_NAME_MAX_LENGTH) {
-      setNameError(`Name should be less than or equal to ${TASK_NAME_MAX_LENGTH} characters`);
+      setNameError(`名稱不可超過 ${TASK_NAME_MAX_LENGTH} 個字元`);
     } else {
       setNameError("");
     }
     if (description.length > DESCRIPTION_MAX_LENGTH) {
-      setDescriptionError(
-        `Description should be less than or equal to ${DESCRIPTION_MAX_LENGTH} characters`,
-      );
+      setDescriptionError(`描述不可超過 ${DESCRIPTION_MAX_LENGTH} 個字元`);
     } else {
       setDescriptionError("");
     }
@@ -63,7 +61,7 @@ const AddTask = () => {
     const newName = event.target.value;
     setName(newName);
     if (newName.length > TASK_NAME_MAX_LENGTH) {
-      setNameError(`Name should be less than or equal to ${TASK_NAME_MAX_LENGTH} characters`);
+      setNameError(`名稱不可超過 ${TASK_NAME_MAX_LENGTH} 個字元`);
     } else {
       setNameError("");
     }
@@ -73,9 +71,7 @@ const AddTask = () => {
     const newDescription = event.target.value;
     setDescription(newDescription);
     if (newDescription.length > DESCRIPTION_MAX_LENGTH) {
-      setDescriptionError(
-        `Description should be less than or equal to ${DESCRIPTION_MAX_LENGTH} characters`,
-      );
+      setDescriptionError(`描述不可超過 ${DESCRIPTION_MAX_LENGTH} 個字元`);
     } else {
       setDescriptionError("");
     }
@@ -87,7 +83,7 @@ const AddTask = () => {
 
   const handleAddTask = () => {
     if (name === "") {
-      showToast("Task name is required.", {
+      showToast("請輸入任務名稱。", {
         type: "error",
         id: "task-name-required",
         preventDuplicate: true,
@@ -122,7 +118,7 @@ const AddTask = () => {
 
     showToast(
       <div>
-        Added task - <b>{newTask.name}</b>
+        已新增任務 - <b>{newTask.name}</b>
       </div>,
       {
         icon: <AddTaskRounded />,
@@ -135,7 +131,7 @@ const AddTask = () => {
 
   return (
     <>
-      <TopBar title="Add New Task" />
+      <TopBar title="新增任務" />
       <Container>
         <CustomEmojiPicker
           emoji={typeof emoji === "string" ? emoji : undefined}
@@ -147,9 +143,9 @@ const AddTask = () => {
         {/* fix for input colors */}
         <InputThemeProvider>
           <StyledInput
-            label="Task Name"
+            label="任務名稱"
             name="name"
-            placeholder="Enter task name"
+            placeholder="輸入任務名稱"
             autoComplete="off"
             value={name}
             onChange={handleNameChange}
@@ -165,9 +161,9 @@ const AddTask = () => {
             }
           />
           <StyledInput
-            label="Task Description"
+            label="任務描述"
             name="name"
-            placeholder="Enter task description"
+            placeholder="輸入任務描述"
             autoComplete="off"
             value={description}
             onChange={handleDescriptionChange}
@@ -184,9 +180,9 @@ const AddTask = () => {
             }
           />
           <StyledInput
-            label="Task Deadline"
+            label="截止日期"
             name="name"
-            placeholder="Enter deadline date"
+            placeholder="輸入截止日期"
             type="datetime-local"
             value={deadline}
             onChange={handleDeadlineChange}
@@ -201,7 +197,7 @@ const AddTask = () => {
                 startAdornment:
                   deadline && deadline !== "" ? (
                     <InputAdornment position="start">
-                      <Tooltip title="Clear">
+                      <Tooltip title="清除">
                         <IconButton color="error" onClick={() => setDeadline("")}>
                           <CancelRounded />
                         </IconButton>
@@ -238,7 +234,7 @@ const AddTask = () => {
             name.length > TASK_NAME_MAX_LENGTH || description.length > DESCRIPTION_MAX_LENGTH
           }
         >
-          Create Task
+          建立任務
         </AddTaskButton>
       </Container>
     </>

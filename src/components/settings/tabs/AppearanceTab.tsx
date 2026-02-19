@@ -27,22 +27,22 @@ import { ColorElement } from "../../../styles";
 
 const darkModeOptions: OptionItem<DarkModeOptions>[] = [
   {
-    label: "Auto",
+    label: "自動",
     value: "auto",
     icon: <BrightnessAutoRounded sx={{ fontSize: OPTION_ICON_SIZE }} />,
   },
   {
-    label: "System",
+    label: "系統",
     value: "system",
     icon: <PersonalVideoRounded sx={{ fontSize: OPTION_ICON_SIZE }} />,
   },
   {
-    label: "Light",
+    label: "淺色",
     value: "light",
     icon: <LightModeRounded sx={{ fontSize: OPTION_ICON_SIZE }} />,
   },
   {
-    label: "Dark",
+    label: "深色",
     value: "dark",
     icon: <DarkModeRounded sx={{ fontSize: OPTION_ICON_SIZE }} />,
   },
@@ -50,17 +50,17 @@ const darkModeOptions: OptionItem<DarkModeOptions>[] = [
 
 const reduceMotionOptions: OptionItem<ReduceMotionOption>[] = [
   {
-    label: "System",
+    label: "系統",
     value: "system",
     icon: <PersonalVideoRounded sx={{ fontSize: OPTION_ICON_SIZE }} />,
   },
   {
-    label: "Always",
+    label: "總是",
     value: "on",
     icon: <MotionPhotosOffRounded sx={{ fontSize: OPTION_ICON_SIZE }} />,
   },
   {
-    label: "Never",
+    label: "從不",
     value: "off",
     icon: <MotionPhotosAutoRounded sx={{ fontSize: OPTION_ICON_SIZE }} />,
   },
@@ -95,7 +95,7 @@ export default function AppearanceTab() {
 
   return (
     <>
-      <SectionHeading>Dark Mode Options</SectionHeading>
+      <SectionHeading>深色模式選項</SectionHeading>
       <CustomRadioGroup
         options={darkModeOptions}
         value={darkModeValue}
@@ -108,7 +108,7 @@ export default function AppearanceTab() {
           }));
         }}
       />
-      <SectionHeading>Theme Selection</SectionHeading>
+      <SectionHeading>主題選擇</SectionHeading>
       <StyledSelect
         value={user.theme}
         onChange={handleAppThemeChange}
@@ -116,7 +116,7 @@ export default function AppearanceTab() {
       >
         <StyledMenuItem value="system">
           <PersonalVideoRounded />
-          &nbsp; System ({systemTheme === "dark" ? Themes[0].name : Themes[1].name})
+          &nbsp; 系統 ({systemTheme === "dark" ? Themes[0].name : Themes[1].name})
         </StyledMenuItem>
         {Themes.map((theme) => (
           <StyledMenuItem key={theme.name} value={theme.name}>
@@ -133,10 +133,8 @@ export default function AppearanceTab() {
           </StyledMenuItem>
         ))}
       </StyledSelect>
-      <SectionHeading>Reduce Motion Options</SectionHeading>
-      <SectionDescription>
-        Reduce animations and transitions for a more stable experience.
-      </SectionDescription>
+      <SectionHeading>減少動畫選項</SectionHeading>
+      <SectionDescription>減少動畫與過場效果，提供更穩定的使用體驗。</SectionDescription>
       <CustomRadioGroup
         options={reduceMotionOptions}
         value={reduceMotionValue}
@@ -153,8 +151,8 @@ export default function AppearanceTab() {
       />
       <CustomSwitch
         settingKey="enableGlow"
-        header="Enable Glow Effect"
-        text="Add a soft glow to tasks for better visibility."
+        header="啟用發光效果"
+        text="為任務添加柔和光暈，提升可見度。"
       />
     </>
   );

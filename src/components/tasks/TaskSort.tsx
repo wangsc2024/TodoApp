@@ -18,22 +18,22 @@ const sortOptions: {
 }[] = [
   {
     value: "dateCreated",
-    label: "Date Created",
+    label: "建立日期",
     icon: <AccessTimeRounded fontSize="small" />,
   },
   {
     value: "dueDate",
-    label: "Due Date",
+    label: "截止日期",
     icon: <CalendarTodayRounded fontSize="small" />,
   },
   {
     value: "alphabetical",
-    label: "Alphabetical",
+    label: "字母排序",
     icon: <SortByAlphaRounded fontSize="small" />,
   },
   {
     value: "custom",
-    label: "Custom",
+    label: "自訂",
     icon: <MoveUpRounded fontSize="small" />,
   },
 ];
@@ -68,7 +68,7 @@ export const TaskSort = () => {
       >
         {currentSortOption?.icon}
         <ButtonContent>
-          <SortLabel>Sort by</SortLabel>
+          <SortLabel>排序依據</SortLabel>
           <SortValue>{currentSortOption?.label}</SortValue>
         </ButtonContent>
       </SortButton>

@@ -24,18 +24,18 @@ const NotFound: React.FC<NotFoundProps> = ({ message }) => {
       <Description>
         {message || (
           <div>
-            Page{" "}
+            頁面{" "}
             <PathName>
               {location.pathname.length > 32
                 ? location.pathname.substring(0, 29) + "..."
                 : location.pathname}
             </PathName>{" "}
-            was not found.
+            找不到。
           </div>
         )}
       </Description>
       <BackButton variant="outlined" onClick={() => n("/")}>
-        <ArrowBackIosNew /> &nbsp; Go back to tasks
+        <ArrowBackIosNew /> &nbsp; 返回任務列表
       </BackButton>
     </Container>
   );

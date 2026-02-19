@@ -43,7 +43,7 @@ const Purge = () => {
   const doneTasks = tasks.filter((task) => task.done);
   const notDoneTasks = tasks.filter((task) => !task.done);
 
-  const selectedNamesList = new Intl.ListFormat("en", {
+  const selectedNamesList = new Intl.ListFormat("zh-TW", {
     style: "long",
     type: "conjunction",
   }).format(
@@ -86,14 +86,14 @@ const Purge = () => {
     purgeTasks(tasksToPurge);
     showToast(
       <div>
-        Purged selectedTasks tasks: <b translate="no">{selectedNamesList}</b>
+        已清除所選任務：<b translate="no">{selectedNamesList}</b>
       </div>,
     );
   };
 
   const handlePurgeDone = () => {
     purgeTasks(doneTasks);
-    showToast("Purged all done tasks.");
+    showToast("已清除所有已完成的任務。");
   };
 
   const handlePurgeAll = () => {
@@ -134,13 +134,13 @@ const Purge = () => {
 
   return (
     <>
-      <TopBar title="Purge Tasks" />
-      <ManagementHeader>Select Tasks To Purge</ManagementHeader>
+      <TopBar title="清除任務" />
+      <ManagementHeader>選擇要清除的任務</ManagementHeader>
       <ManagementContainer>
-        {doneTasks.length > 0 && renderTasks(doneTasks, "Done Tasks")}
-        {notDoneTasks.length > 0 && renderTasks(notDoneTasks, "Not Done Tasks")}
+        {doneTasks.length > 0 && renderTasks(doneTasks, "已完成的任務")}
+        {notDoneTasks.length > 0 && renderTasks(notDoneTasks, "未完成的任務")}
         {tasks.length === 0 && (
-          <h3 style={{ opacity: 0.8, fontStyle: "italic" }}>You don't have any tasks to purge</h3>
+          <h3 style={{ opacity: 0.8, fontStyle: "italic" }}>您沒有任何可清除的任務</h3>
         )}
       </ManagementContainer>
       <ManagementButtonsContainer>
@@ -148,45 +148,43 @@ const Purge = () => {
           title={
             selectedTasks.length > 0 ? (
               <div>
-                <span>Selected Tasks: </span>
+                <span>已選擇的任務：</span>
                 <span translate="no">{selectedNamesList}</span>
               </div>
             ) : undefined
           }
         >
           <ManagementButton onClick={handlePurgeSelected} disabled={selectedTasks.length === 0}>
-            <DeleteSweepRounded /> &nbsp; Purge Selected{" "}
+            <DeleteSweepRounded /> &nbsp; 清除所選{" "}
             {selectedTasks.length > 0 && `[${selectedTasks.length}]`}
           </ManagementButton>
         </Tooltip>
         <ManagementButton onClick={handlePurgeDone} disabled={doneTasks.length === 0}>
-          <DoneAllRounded /> &nbsp; Purge Done
+          <DoneAllRounded /> &nbsp; 清除已完成
         </ManagementButton>
         <ManagementButton color="error" onClick={handlePurgeAll} disabled={tasks.length === 0}>
-          <DeleteForeverRounded /> &nbsp; Purge All Tasks
+          <DeleteForeverRounded /> &nbsp; 清除所有任務
         </ManagementButton>
       </ManagementButtonsContainer>
       <Dialog open={deleteAllDialog} onClose={() => setDeleteAllDialog(false)}>
         <CustomDialogTitle
-          title="Purge All Tasks"
-          subTitle="Confirm that you want to purge all tasks"
+          title="清除所有任務"
+          subTitle="確認您要清除所有任務"
           onClose={() => setDeleteAllDialog(false)}
           icon={<DeleteForeverRounded />}
         />
-        <DialogContent>
-          This action cannot be undone. Are you sure you want to proceed?
-        </DialogContent>
+        <DialogContent>此操作無法復原。您確定要繼續嗎？</DialogContent>
         <DialogActions>
-          <DialogBtn onClick={() => setDeleteAllDialog(false)}>Cancel</DialogBtn>
+          <DialogBtn onClick={() => setDeleteAllDialog(false)}>取消</DialogBtn>
           <DialogBtn
             color="error"
             onClick={() => {
               purgeTasks(tasks);
               setDeleteAllDialog(false);
-              showToast("Purged all tasks");
+              showToast("已清除所有任務");
             }}
           >
-            <DeleteForeverRounded /> &nbsp; Purge
+            <DeleteForeverRounded /> &nbsp; 清除
           </DialogBtn>
         </DialogActions>
       </Dialog>

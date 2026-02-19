@@ -47,9 +47,9 @@ export const ShareDialog = ({ open, onClose, selectedTask }: ShareDialogProps) =
   const [shareTabVal, setShareTabVal] = useState<number>(0);
 
   const tabs: { label: string; icon: React.ReactElement; disabled?: boolean }[] = [
-    { label: "Link", icon: <LinkRounded /> },
+    { label: "連結", icon: <LinkRounded /> },
     { label: "QR Code", icon: <QrCode2Rounded /> },
-    ...(systemInfo.isAppleDevice ? [{ label: "Calendar", icon: <CalendarTodayRounded /> }] : []),
+    ...(systemInfo.isAppleDevice ? [{ label: "行事曆", icon: <CalendarTodayRounded /> }] : []),
   ];
 
   const generateShareableLink = (task: Task, userName: string): string => {
@@ -79,14 +79,14 @@ export const ShareDialog = ({ open, onClose, selectedTask }: ShareDialogProps) =
     const linkToCopy = generateShareableLink(selectedTask, name || "User");
     try {
       await navigator.clipboard.writeText(linkToCopy);
-      showToast("Copied link to clipboard.", {
+      showToast("已複製連結到剪貼簿。", {
         preventDuplicate: true,
         id: "copy-sharable-link",
         visibleToasts: toasts,
       });
     } catch (error) {
       console.error("Error copying link to clipboard:", error);
-      showToast("Error copying link to clipboard", { type: "error" });
+      showToast("複製連結到剪貼簿時發生錯誤", { type: "error" });
     }
   };
 
@@ -95,13 +95,13 @@ export const ShareDialog = ({ open, onClose, selectedTask }: ShareDialogProps) =
     if (navigator.share) {
       try {
         await navigator.share({
-          title: "Share Task",
-          text: `Check out this task: ${selectedTask.name}`,
+          title: "分享任務",
+          text: `來看看這個任務：${selectedTask.name}`,
           url: linkToShare,
         });
       } catch (error) {
         console.error("Error sharing link:", error);
-        showToast("Error sharing link", { type: "error" });
+        showToast("分享連結時發生錯誤", { type: "error" });
       }
     }
   };
@@ -162,8 +162,8 @@ export const ShareDialog = ({ open, onClose, selectedTask }: ShareDialogProps) =
       }}
     >
       <CustomDialogTitle
-        title="Share Task"
-        subTitle="Share your task with others."
+        title="分享任務"
+        subTitle="與他人分享您的任務。"
         onClose={onClose}
         icon={<IosShare />}
       />
@@ -195,7 +195,7 @@ export const ShareDialog = ({ open, onClose, selectedTask }: ShareDialogProps) =
               value={generateShareableLink(selectedTask, name || "User")}
               fullWidth
               variant="outlined"
-              label="Shareable Link"
+              label="分享連結"
               slotProps={{
                 input: {
                   readOnly: true,
@@ -210,7 +210,7 @@ export const ShareDialog = ({ open, onClose, selectedTask }: ShareDialogProps) =
                         onClick={handleCopyToClipboard}
                         sx={{ p: "12px", borderRadius: "14px", mr: "4px" }}
                       >
-                        <ContentCopyRounded /> &nbsp; Copy
+                        <ContentCopyRounded /> &nbsp; 複製
                       </Button>
                     </InputAdornment>
                   ),
@@ -234,7 +234,7 @@ export const ShareDialog = ({ open, onClose, selectedTask }: ShareDialogProps) =
                 variant="outlined"
                 onClick={() => saveQRCode(selectedTask.name || "")}
               >
-                <DownloadRounded /> &nbsp; Download QR Code
+                <DownloadRounded /> &nbsp; 下載 QR Code
               </DownloadQrCodeBtn>
             </QRCodeContainer>
           </TabPanel>
@@ -250,7 +250,7 @@ export const ShareDialog = ({ open, onClose, selectedTask }: ShareDialogProps) =
                 }}
               >
                 <Button variant="contained" color="inherit" onClick={handleAddToAppleCalendar}>
-                  <Apple /> &nbsp; Add to Apple Calendar
+                  <Apple /> &nbsp; 加入 Apple 行事曆
                 </Button>
               </Box>
             </TabPanel>
@@ -263,15 +263,15 @@ export const ShareDialog = ({ open, onClose, selectedTask }: ShareDialogProps) =
             //@ts-expect-error it works
             color="primary"
           >
-            <AlertTitle>Share Your Task</AlertTitle>
-            Copy the link to share manually or use the share button to send it via other apps.
+            <AlertTitle>分享您的任務</AlertTitle>
+            複製連結手動分享，或使用分享按鈕透過其他應用程式傳送。
           </Alert>
         )}
       </DialogContent>
       <DialogActions>
-        <DialogBtn onClick={onClose}>Close</DialogBtn>
+        <DialogBtn onClick={onClose}>關閉</DialogBtn>
         <DialogBtn onClick={handleShare}>
-          <IosShare sx={{ mb: "4px" }} /> &nbsp; Share
+          <IosShare sx={{ mb: "4px" }} /> &nbsp; 分享
         </DialogBtn>
       </DialogActions>
     </Dialog>

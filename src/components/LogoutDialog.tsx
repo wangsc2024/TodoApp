@@ -7,6 +7,8 @@ import { UserContext } from "../contexts/UserContext";
 import { useAuth } from "../hooks/useAuth";
 import { defaultUser } from "../constants/defaultUser";
 import { deleteProfilePictureFromDB, showToast } from "../utils";
+import { clearIndexedDbPersistence, terminate } from "firebase/firestore";
+import { db } from "../services/firebase";
 
 interface LogoutDialogProps {
   open: boolean;
@@ -20,6 +22,13 @@ export function LogoutDialog({ open, onClose }: LogoutDialogProps) {
   const handleLogout = async () => {
     if (isAuthenticated) {
       await firebaseLogout();
+      // Clear Firestore persistent cache to prevent data leaking to guest sessions
+      try {
+        await terminate(db);
+        await clearIndexedDbPersistence(db);
+      } catch {
+        // Ignore if cache clearing fails (e.g., multiple tabs open)
+      }
     }
     setUser(defaultUser);
     onClose();

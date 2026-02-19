@@ -47,37 +47,37 @@ const settingsTabs: {
   Component: LazyExoticComponent<() => JSX.Element>;
 }[] = [
   {
-    label: "Appearance",
+    label: "外觀",
     icon: <PaletteRounded />,
     Component: lazy(() => import("./tabs/AppearanceTab")),
   },
   {
-    label: "General",
-    heading: "General Settings",
+    label: "一般",
+    heading: "一般設定",
     icon: <SettingsRounded />,
     Component: lazy(() => import("./tabs/GeneralTab")),
   },
   {
-    label: "Emoji",
-    heading: "Emoji Settings",
+    label: "表情符號",
+    heading: "表情符號設定",
     icon: <EmojiEmotionsRounded />,
     Component: lazy(() => import("./tabs/EmojiTab")),
   },
   {
-    label: "Read Aloud",
-    heading: "Read Aloud Settings",
+    label: "朗讀",
+    heading: "朗讀設定",
     icon: <RecordVoiceOverRounded />,
     Component: lazy(() => import("./tabs/ReadAloudTab")),
   },
   {
-    label: "Shortcuts",
-    heading: "Keyboard Shortcuts",
+    label: "快捷鍵",
+    heading: "鍵盤快捷鍵",
     icon: <KeyboardCommandKeyRounded />,
     Component: lazy(() => import("./tabs/ShortcutsTab")),
   },
   {
-    label: "About",
-    heading: "About This App",
+    label: "關於",
+    heading: "關於此應用",
     icon: <InfoRounded />,
     Component: lazy(() => import("./tabs/AboutTab")),
   },
@@ -150,18 +150,18 @@ export const SettingsDialog = ({ open, onClose, handleOpen }: SettingsProps) => 
       return;
     }
 
-    const match = hash.match(/^#settings\/(\w+)/);
+    const match = hash.match(/^#settings\/([^/]+)/);
     if (!match) return -1;
 
-    const slug = match[1];
+    const slug = decodeURIComponent(match[1]);
     const tabIndex = settingsTabs.findIndex((tab) => createTabSlug(tab.label) === slug);
 
     if (tabIndex !== -1) {
       setTabValue(tabIndex);
     } else {
-      const invalidSlug = hash.match(/^#settings\/(\w+)/)?.[1];
+      const invalidSlug = decodeURIComponent(hash.match(/^#settings\/([^/]+)/)?.[1] ?? "");
       if (invalidSlug) {
-        showToast(`Invalid settings tab: "${invalidSlug}". Redirecting to default tab.`, {
+        showToast(`無效的設定分頁：「${invalidSlug}」。正在重新導向至預設分頁。`, {
           type: "warning",
         });
         replaceWithTab(0);
@@ -269,8 +269,8 @@ export const SettingsDialog = ({ open, onClose, handleOpen }: SettingsProps) => 
     >
       <CustomDialogTitle
         icon={<SettingsRounded />}
-        title="Settings"
-        subTitle="Manage Your settings and preferences"
+        title="設定"
+        subTitle="管理您的設定與偏好"
         onClose={handleDialogClose}
         removeDivider
       />
@@ -334,7 +334,7 @@ export const SettingsDialog = ({ open, onClose, handleOpen }: SettingsProps) => 
       {isMobile && (
         <CloseButtonContainer>
           <CloseButton variant="contained" onClick={handleDialogClose}>
-            Close
+            關閉
           </CloseButton>
         </CloseButtonContainer>
       )}

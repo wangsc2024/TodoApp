@@ -74,7 +74,7 @@ export default function Sync() {
       setMode("scan");
       connectToHost(scannedId);
     } catch (err) {
-      showToast("Failed to scan QR Code", { type: "error" });
+      showToast("掃描 QR Code 失敗", { type: "error" });
       console.error("Error scanning QR Code:", err);
     }
   };
@@ -83,11 +83,11 @@ export default function Sync() {
     if (!src) return null;
 
     if (src === "this_device") {
-      return mode === "display" ? "This Device" : "Host Device";
+      return mode === "display" ? "本裝置" : "主機裝置";
     }
 
     if (src === "other_device") {
-      return mode === "display" ? "Other Device" : "This Device";
+      return mode === "display" ? "其他裝置" : "本裝置";
     }
 
     return null;
@@ -95,19 +95,18 @@ export default function Sync() {
 
   return (
     <>
-      <TopBar title="Sync Data" />
+      <TopBar title="同步資料" />
       <MainContainer>
         {!mode && (
           <>
             <FeatureDescription>
               <DevicesRounded sx={{ fontSize: 40, color: (theme) => theme.palette.primary.main }} />
               <Typography variant="h5" sx={{ fontWeight: 600, mb: 1 }}>
-                Sync Data Between Devices
+                在裝置間同步資料
               </Typography>
               <Typography variant="body1" sx={{ mb: 2, opacity: 0.9 }}>
-                Securely transfer your tasks, categories and other data between devices with a
-                single QR Code scan using peer-to-peer connection. No data is stored or processed on
-                external servers.
+                透過點對點連線，只需掃描一次 QR Code，即可在裝置間安全傳輸您的任務、分類及其他資料。
+                資料不會儲存或處理於外部伺服器。
               </Typography>
               {user.lastSyncedAt && (
                 <Tooltip
@@ -118,14 +117,14 @@ export default function Sync() {
                   placement="top"
                 >
                   <LastSyncedText>
-                    <AccessTimeRounded /> &nbsp; Last synced {timeAgo(new Date(user.lastSyncedAt))}
+                    <AccessTimeRounded /> &nbsp; 上次同步於 {timeAgo(new Date(user.lastSyncedAt))}
                   </LastSyncedText>
                 </Tooltip>
               )}
               {!isOnline && (
                 <Alert icon={<WifiOffRounded />} severity="error" sx={{ textAlign: "left", mt: 4 }}>
-                  <AlertTitle>Offline</AlertTitle>
-                  You're offline. Both devices must be online to start a peer-to-peer sync.
+                  <AlertTitle>離線</AlertTitle>
+                  您目前處於離線狀態。兩部裝置都必須在線上才能開始點對點同步。
                 </Alert>
               )}
             </FeatureDescription>
@@ -141,7 +140,7 @@ export default function Sync() {
                   }}
                   startIcon={<QrCodeRounded />}
                 >
-                  Display QR Code
+                  顯示 QR Code
                 </SyncButton>
                 <SyncButton
                   variant="outlined"
@@ -151,7 +150,7 @@ export default function Sync() {
                   }}
                   startIcon={<QrCodeScannerRounded />}
                 >
-                  Scan QR Code
+                  掃描 QR Code
                 </SyncButton>
               </DisabledThemeProvider>
             </ModeSelectionContainer>
@@ -161,7 +160,7 @@ export default function Sync() {
         {mode === "display" && (
           <StyledPaper>
             <ModeHeader>
-              <WifiTetheringRounded /> Host Mode
+              <WifiTetheringRounded /> 主機模式
             </ModeHeader>
             {hostPeerId ? (
               isSeverity(syncStatus.severity, "success") ? (
@@ -178,10 +177,10 @@ export default function Sync() {
                     size={300}
                     style={{ backgroundColor: "white", borderRadius: "8px", padding: "8px" }}
                   />
-                  <QRCodeLabel>Scan this QR code with another device to sync data</QRCodeLabel>
+                  <QRCodeLabel>使用其他裝置掃描此 QR Code 以同步資料</QRCodeLabel>
                   <FormControl>
                     <StyledFormLabel id="sync-radio-buttons-group-label">
-                      Sync App Settings & Other Data
+                      同步應用設定及其他資料
                     </StyledFormLabel>
                     <RadioGroup
                       row={!isMobile}
@@ -195,18 +194,14 @@ export default function Sync() {
                       <StyledFormControlLabel
                         value="this_device"
                         control={<Radio />}
-                        label="This Device"
+                        label="本裝置"
                       />
                       <StyledFormControlLabel
                         value="other_device"
                         control={<Radio />}
-                        label="Other Device"
+                        label="其他裝置"
                       />
-                      <StyledFormControlLabel
-                        value="no_sync"
-                        control={<Radio />}
-                        label="Don't Sync"
-                      />
+                      <StyledFormControlLabel value="no_sync" control={<Radio />} label="不同步" />
                     </RadioGroup>
                   </FormControl>
                   <Typography
@@ -215,7 +210,7 @@ export default function Sync() {
                       color: (theme) => (theme.palette.mode === "dark" ? "#ffffff" : "#000000"),
                     }}
                   >
-                    Tasks and categories will be synced automatically.
+                    任務和分類將自動同步。
                   </Typography>
                   <SyncStatusAlert syncStatus={syncStatus} />
                   <SyncButton
@@ -224,10 +219,10 @@ export default function Sync() {
                     color={isSeverity(syncStatus.severity, "error") ? "error" : "primary"}
                   >
                     {isSeverity(syncStatus.severity, "error") ? (
-                      "Try Again"
+                      "重試"
                     ) : (
                       <>
-                        <RestartAltRounded /> &nbsp; Reset
+                        <RestartAltRounded /> &nbsp; 重置
                       </>
                     )}
                   </SyncButton>
@@ -236,7 +231,7 @@ export default function Sync() {
             ) : (
               <LoadingContainer>
                 <CircularProgress size={24} />
-                <LoadingText>Initializing...</LoadingText>
+                <LoadingText>初始化中...</LoadingText>
               </LoadingContainer>
             )}
           </StyledPaper>
@@ -245,7 +240,7 @@ export default function Sync() {
         {mode === "scan" && (
           <StyledPaper>
             <ModeHeader>
-              <QrCodeScannerRounded /> Scan Mode
+              <QrCodeScannerRounded /> 掃描模式
             </ModeHeader>
             {isSeverity(syncStatus.severity, "success") ? (
               <SyncSuccessScreen
@@ -270,10 +265,10 @@ export default function Sync() {
                   color={isSeverity(syncStatus.severity, "error") ? "error" : "primary"}
                 >
                   {isSeverity(syncStatus.severity, "error") ? (
-                    "Try Again"
+                    "重試"
                   ) : (
                     <>
-                      <RestartAltRounded /> &nbsp; Reset
+                      <RestartAltRounded /> &nbsp; 重置
                     </>
                   )}
                 </SyncButton>
@@ -283,7 +278,7 @@ export default function Sync() {
         )}
 
         <QRCodeScannerDialog
-          subTitle="Scan a QR code to sync."
+          subTitle="掃描 QR Code 以同步。"
           open={scannerOpen}
           onClose={() => setScannerOpen(false)}
           onScan={(result) => {
@@ -291,7 +286,7 @@ export default function Sync() {
           }}
           onError={(err) => {
             console.error("QR scan error:", err);
-            showToast("Error scanning QR.", { type: "error" });
+            showToast("掃描 QR Code 時發生錯誤。", { type: "error" });
             setScannerOpen(false);
           }}
         />
@@ -313,8 +308,8 @@ export function SyncSuccessScreen({
   return (
     <Stack spacing={2} alignItems="center">
       <StyledAlert severity={syncStatus.severity} icon={undefined}>
-        <b>Sync Complete</b>
-        <div>{syncStatus.message || "Idle"}</div>
+        <b>同步完成</b>
+        <div>{syncStatus.message || "閒置"}</div>
       </StyledAlert>
       {otherDataSource && (
         <Typography
@@ -324,12 +319,12 @@ export function SyncSuccessScreen({
             color: (theme) => (theme.palette.mode === "dark" ? "#ffffff" : "#000000"),
           }}
         >
-          Settings and other data{" "}
+          設定及其他資料{" "}
           {otherDataSource === "no_sync" ? (
-            "were not synced."
+            "未進行同步。"
           ) : (
             <>
-              were imported from <b>{getOtherDataSourceLabel(otherDataSource)}.</b>
+              已從 <b>{getOtherDataSourceLabel(otherDataSource)}</b> 匯入。
             </>
           )}
         </Typography>
@@ -339,7 +334,7 @@ export function SyncSuccessScreen({
         onClick={resetAll}
         color={syncStatus.severity === "success" ? "success" : "primary"}
       >
-        Done
+        完成
       </SyncButton>
     </Stack>
   );
@@ -359,12 +354,12 @@ function SyncStatusAlert({ syncStatus }: { syncStatus: SyncStatus }) {
     >
       <AlertTitle>
         {syncStatus.severity === "error"
-          ? "Error"
+          ? "錯誤"
           : syncStatus.severity === "warning"
-            ? "Warning"
-            : "Status"}
+            ? "警告"
+            : "狀態"}
       </AlertTitle>
-      {syncStatus.message || "Idle"}
+      {syncStatus.message || "閒置"}
     </StyledAlert>
   );
 }

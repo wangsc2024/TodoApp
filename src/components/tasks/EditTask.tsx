@@ -21,7 +21,7 @@ import { useTheme } from "@emotion/react";
 import { ColorPalette } from "../../theme/themeConfig";
 import { CategorySelect } from "../CategorySelect";
 
-const DEFAULT_EDIT_TASK_SUBTITLE = "Edit the details of the task.";
+const DEFAULT_EDIT_TASK_SUBTITLE = "編輯任務的詳細資訊。";
 
 interface EditTaskProps {
   open: boolean;
@@ -63,7 +63,7 @@ export const EditTask = ({ open, task, onClose }: EditTaskProps) => {
     setSelectedCategories(task?.category as Category[]);
     if (task?.lastSave) {
       setEditLastSaveLabel(
-        `Last edited ${timeAgo(new Date(task.lastSave))} • ${formatDate(new Date(task.lastSave))}`,
+        `上次編輯於 ${timeAgo(new Date(task.lastSave))} • ${formatDate(new Date(task.lastSave))}`,
       );
     } else {
       setEditLastSaveLabel(DEFAULT_EDIT_TASK_SUBTITLE);
@@ -106,7 +106,7 @@ export const EditTask = ({ open, task, onClose }: EditTaskProps) => {
       onClose();
       showToast(
         <div>
-          Task <b translate="no">{editedTask.name}</b> updated.
+          任務 <b translate="no">{editedTask.name}</b> 已更新。
         </div>,
       );
     }
@@ -128,7 +128,7 @@ export const EditTask = ({ open, task, onClose }: EditTaskProps) => {
   useEffect(() => {
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
       if (JSON.stringify(editedTask) !== JSON.stringify(task) && open) {
-        const message = "You have unsaved changes. Are you sure you want to leave?";
+        const message = "您有未儲存的變更。確定要離開嗎？";
         e.returnValue = message;
         return message;
       }
@@ -158,7 +158,7 @@ export const EditTask = ({ open, task, onClose }: EditTaskProps) => {
       }}
     >
       <CustomDialogTitle
-        title="Edit Task"
+        title="編輯任務"
         subTitle={editLastSaveLabel}
         icon={<EditCalendarRounded />}
         onClose={onClose}
@@ -173,7 +173,7 @@ export const EditTask = ({ open, task, onClose }: EditTaskProps) => {
           type="task"
         />
         <StyledInput
-          label="Name"
+          label="名稱"
           name="name"
           autoComplete="off"
           value={editedTask?.name || ""}
@@ -182,15 +182,15 @@ export const EditTask = ({ open, task, onClose }: EditTaskProps) => {
           helperText={
             editedTask?.name
               ? editedTask?.name.length === 0
-                ? "Name is required"
+                ? "名稱為必填"
                 : editedTask?.name.length > TASK_NAME_MAX_LENGTH
-                  ? `Name is too long (maximum ${TASK_NAME_MAX_LENGTH} characters)`
+                  ? `名稱過長（最多 ${TASK_NAME_MAX_LENGTH} 個字元）`
                   : `${editedTask?.name?.length}/${TASK_NAME_MAX_LENGTH}`
-              : "Name is required"
+              : "名稱為必填"
           }
         />
         <StyledInput
-          label="Description"
+          label="描述"
           name="description"
           autoComplete="off"
           value={editedTask?.description || ""}
@@ -203,12 +203,12 @@ export const EditTask = ({ open, task, onClose }: EditTaskProps) => {
             editedTask?.description === "" || editedTask?.description === undefined
               ? undefined
               : descriptionError
-                ? `Description is too long (maximum ${DESCRIPTION_MAX_LENGTH} characters)`
+                ? `描述過長（最多 ${DESCRIPTION_MAX_LENGTH} 個字元）`
                 : `${editedTask?.description?.length}/${DESCRIPTION_MAX_LENGTH}`
           }
         />
         <StyledInput
-          label="Deadline date"
+          label="截止日期"
           name="deadline"
           type="datetime-local"
           value={
@@ -224,7 +224,7 @@ export const EditTask = ({ open, task, onClose }: EditTaskProps) => {
             input: {
               startAdornment: editedTask?.deadline ? (
                 <InputAdornment position="start">
-                  <Tooltip title="Clear">
+                  <Tooltip title="清除">
                     <IconButton
                       color="error"
                       onClick={() => {
@@ -278,7 +278,7 @@ export const EditTask = ({ open, task, onClose }: EditTaskProps) => {
         </div>
       </DialogContent>
       <DialogActions>
-        <DialogBtn onClick={handleCancel}>Cancel</DialogBtn>
+        <DialogBtn onClick={handleCancel}>取消</DialogBtn>
         <DialogBtn
           onClick={handleSave}
           color="primary"
@@ -290,7 +290,7 @@ export const EditTask = ({ open, task, onClose }: EditTaskProps) => {
             JSON.stringify(editedTask) === JSON.stringify(task)
           }
         >
-          <SaveRounded /> &nbsp; Save
+          <SaveRounded /> &nbsp; 儲存
         </DialogBtn>
       </DialogActions>
     </Dialog>

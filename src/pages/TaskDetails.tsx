@@ -25,7 +25,7 @@ const TaskDetails = () => {
       <NotFound
         message={
           <div>
-            Task with id <PathName>{formattedId}</PathName> was not found.
+            找不到 ID 為 <PathName>{formattedId}</PathName> 的任務。
           </div>
         }
       />
@@ -39,15 +39,15 @@ const TaskDetails = () => {
 
   return (
     <>
-      <TopBar title="Task Details" />
+      <TopBar title="任務詳情" />
       <Container>
         <TaskName>
-          Task: <span translate="no">{task.name}</span>
+          任務：<span translate="no">{task.name}</span>
         </TaskName>
         <TaskTable>
           <tbody>
             <TableRow>
-              <TableHeader>Emoji:</TableHeader>
+              <TableHeader>表情符號：</TableHeader>
               <TableData>
                 {task.emoji ? (
                   <>
@@ -55,7 +55,7 @@ const TaskDetails = () => {
                     {task.emoji})
                   </>
                 ) : (
-                  <i>none</i>
+                  <i>無</i>
                 )}
               </TableData>
             </TableRow>
@@ -64,53 +64,53 @@ const TaskDetails = () => {
               <TableData>{task?.id}</TableData>
             </TableRow>
             <TableRow>
-              <TableHeader>Description:</TableHeader>
+              <TableHeader>描述：</TableHeader>
               <TableData translate="no">{task?.description}</TableData>
             </TableRow>
             <TableRow>
-              <TableHeader>Color:</TableHeader>
+              <TableHeader>顏色：</TableHeader>
               <TableData>
                 <ColorSquare clr={task.color} />
                 {getColorName(task.color).name} ({task.color.toUpperCase()})
               </TableData>
             </TableRow>
             <TableRow>
-              <TableHeader>Created:</TableHeader>
+              <TableHeader>建立時間：</TableHeader>
               <TableData>{dateFormatter.format(new Date(task.date))}</TableData>
             </TableRow>
             {task?.lastSave && (
               <TableRow>
-                <TableHeader>Last edited:</TableHeader>
+                <TableHeader>上次編輯：</TableHeader>
                 <TableData>{dateFormatter.format(new Date(task.lastSave))}</TableData>
               </TableRow>
             )}
             {task?.deadline && (
               <TableRow>
-                <TableHeader>Task deadline:</TableHeader>
+                <TableHeader>截止日期：</TableHeader>
                 <TableData>{dateFormatter.format(new Date(task.deadline))}</TableData>
               </TableRow>
             )}
             <TableRow>
-              <TableHeader>Done:</TableHeader>
+              <TableHeader>已完成：</TableHeader>
               <TableData>
                 {task?.done ? <Done /> : <Clear />} {task?.done.toString()}
               </TableData>
             </TableRow>
             <TableRow>
-              <TableHeader>Pinned:</TableHeader>
+              <TableHeader>已釘選：</TableHeader>
               <TableData>
                 {task?.pinned ? <Done /> : <Clear />} {task?.pinned.toString()}
               </TableData>
             </TableRow>
             {task?.sharedBy && (
               <TableRow>
-                <TableHeader>Shared by: </TableHeader>
+                <TableHeader>分享者：</TableHeader>
                 <TableData>{task.sharedBy}</TableData>
               </TableRow>
             )}
             {task.category && task.category.length > 0 && (
               <TableRow>
-                <TableHeader>Categories:</TableHeader>
+                <TableHeader>分類：</TableHeader>
                 <TableData>
                   <CategoryContainer>
                     {task?.category?.map((category) => (

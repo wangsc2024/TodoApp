@@ -86,9 +86,9 @@ export const TaskMenu = () => {
       if (allTasksDone) {
         showToast(
           <div>
-            <b>All tasks done</b>
+            <b>所有任務已完成</b>
             <br />
-            <span>You've checked off all your todos. Well done!</span>
+            <span>您已完成所有待辦事項。做得好！</span>
           </div>,
           {
             icon: (
@@ -157,13 +157,13 @@ export const TaskMenu = () => {
     }).format(new Date(selectedTask?.date || ""));
 
     const taskDeadline = selectedTask?.deadline
-      ? `. Task Deadline: ${calculateDateDifference(
+      ? `。任務截止日期：${calculateDateDifference(
           new Date(selectedTask.deadline),
           voice ? voice.lang : navigator.language,
         )}`
       : "";
 
-    const textToRead = `${taskName}${taskDescription}Date: ${taskDate}${taskDeadline}`;
+    const textToRead = `${taskName}${taskDescription}日期：${taskDate}${taskDeadline}`;
 
     const utterThis: SpeechSynthesisUtterance = new SpeechSynthesisUtterance(textToRead);
 
@@ -198,10 +198,10 @@ export const TaskMenu = () => {
         return (
           <ReadAloudContainer>
             <ReadAloudHeader translate="yes">
-              <RecordVoiceOver /> Read aloud: <span translate="no">{selectedTask?.name}</span>
+              <RecordVoiceOver /> 朗讀：<span translate="no">{selectedTask?.name}</span>
             </ReadAloudHeader>
             <span translate="yes" style={{ marginTop: "8px", fontSize: "16px" }}>
-              Voice: <span translate="no">{utterThis.voice?.name || "Default"}</span>
+              語音：<span translate="no">{utterThis.voice?.name || "預設"}</span>
             </span>
             <div translate="no">
               <Marquee delay={0.6} play={isPlaying}>
@@ -261,12 +261,12 @@ export const TaskMenu = () => {
   const menuItems: JSX.Element[] = [
     <StyledMenuItem key="done" onClick={handleMarkAsDone}>
       {selectedTask.done ? <Close /> : <Done />}
-      &nbsp; {selectedTask.done ? "Mark as not done" : "Mark as done"}
+      &nbsp; {selectedTask.done ? "標記為未完成" : "標記為完成"}
     </StyledMenuItem>,
 
     <StyledMenuItem key="pin" onClick={handlePin}>
       <PushPinRounded sx={{ textDecoration: "line-through" }} />
-      &nbsp; {selectedTask.pinned ? "Unpin" : "Pin"}
+      &nbsp; {selectedTask.pinned ? "取消釘選" : "釘選"}
     </StyledMenuItem>,
 
     ...(multipleSelectedTasks.length === 0
@@ -276,7 +276,7 @@ export const TaskMenu = () => {
             onClick={() => handleSelectTask(selectedTaskId || generateUUID())}
             disabled={moveMode}
           >
-            <RadioButtonChecked /> &nbsp; Select
+            <RadioButtonChecked /> &nbsp; 選取
           </StyledMenuItem>,
         ]
       : []),
@@ -291,7 +291,7 @@ export const TaskMenu = () => {
               setSearch("");
               handleCloseMoreMenu();
               if (user.settings.sortOption !== "custom") {
-                showToast("Changed sort option to: Custom", { type: "info" });
+                showToast("已切換排序方式為：自訂", { type: "info" });
               }
               setUser((prevUser) => ({
                 ...prevUser,
@@ -302,13 +302,13 @@ export const TaskMenu = () => {
               }));
             }}
           >
-            <MoveUpRounded /> &nbsp; Move
+            <MoveUpRounded /> &nbsp; 移動
           </StyledMenuItem>,
         ]
       : []),
 
     <StyledMenuItem key="details" onClick={redirectToTaskDetails}>
-      <LaunchRounded /> &nbsp; Task details
+      <LaunchRounded /> &nbsp; 任務詳情
     </StyledMenuItem>,
 
     ...(settings.enableReadAloud && "speechSynthesis" in window
@@ -321,7 +321,7 @@ export const TaskMenu = () => {
               (window.speechSynthesis.speaking || window.speechSynthesis.pending)
             }
           >
-            <RecordVoiceOverRounded /> &nbsp; Read Aloud
+            <RecordVoiceOverRounded /> &nbsp; 朗讀
           </StyledMenuItem>,
         ]
       : []),
@@ -333,7 +333,7 @@ export const TaskMenu = () => {
         handleCloseMoreMenu();
       }}
     >
-      <LinkRounded /> &nbsp; Share
+      <LinkRounded /> &nbsp; 分享
     </StyledMenuItem>,
 
     <Divider key="divider-1" />,
@@ -345,11 +345,11 @@ export const TaskMenu = () => {
         handleCloseMoreMenu();
       }}
     >
-      <EditRounded /> &nbsp; Edit
+      <EditRounded /> &nbsp; 編輯
     </StyledMenuItem>,
 
     <StyledMenuItem key="duplicate" onClick={handleDuplicateTask}>
-      <ContentCopy /> &nbsp; Duplicate
+      <ContentCopy /> &nbsp; 複製
     </StyledMenuItem>,
 
     <Divider key="divider-2" />,
@@ -362,7 +362,7 @@ export const TaskMenu = () => {
         handleCloseMoreMenu();
       }}
     >
-      <DeleteRounded /> &nbsp; Delete
+      <DeleteRounded /> &nbsp; 刪除
     </StyledMenuItem>,
   ];
 

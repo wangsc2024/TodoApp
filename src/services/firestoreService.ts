@@ -2,6 +2,7 @@ import {
   doc,
   getDoc,
   setDoc,
+  deleteDoc,
   collection,
   getDocs,
   writeBatch,
@@ -103,7 +104,9 @@ function userProfileToFirestore(user: UserProfileFields): Record<string, unknown
   };
 }
 
-function userProfileFromFirestore(data: Record<string, unknown>): Omit<User, "tasks" | "categories"> {
+function userProfileFromFirestore(
+  data: Record<string, unknown>,
+): Omit<User, "tasks" | "categories"> {
   return {
     name: (data.name as string) ?? null,
     createdAt: toDate(data.createdAt as Timestamp) ?? new Date(),
@@ -122,13 +125,18 @@ function userProfileFromFirestore(data: Record<string, unknown>): Omit<User, "ta
 
 // --- CRUD Operations ---
 
-export async function getUserProfile(uid: string): Promise<Omit<User, "tasks" | "categories"> | null> {
+export async function getUserProfile(
+  uid: string,
+): Promise<Omit<User, "tasks" | "categories"> | null> {
   const snap = await getDoc(doc(db, "users", uid));
   if (!snap.exists()) return null;
   return userProfileFromFirestore(snap.data());
 }
 
-export async function setUserProfile(uid: string, user: Omit<User, "tasks" | "categories">): Promise<void> {
+export async function setUserProfile(
+  uid: string,
+  user: Omit<User, "tasks" | "categories">,
+): Promise<void> {
   await setDoc(doc(db, "users", uid), userProfileToFirestore(user));
 }
 
@@ -201,7 +209,6 @@ export async function setTask(uid: string, task: Task): Promise<void> {
 }
 
 export async function deleteTask(uid: string, taskId: UUID): Promise<void> {
-  const { deleteDoc } = await import("firebase/firestore");
   await deleteDoc(doc(db, "users", uid, "tasks", taskId));
 }
 
@@ -210,8 +217,98 @@ export async function setCategory(uid: string, category: Category): Promise<void
 }
 
 export async function deleteCategory(uid: string, categoryId: UUID): Promise<void> {
-  const { deleteDoc } = await import("firebase/firestore");
   await deleteDoc(doc(db, "users", uid, "categories", categoryId));
+}
+
+// --- Batch Diff Write ---
+
+interface DiffOps {
+  addedOrModifiedTasks: Task[];
+  deletedTaskIds: UUID[];
+  addedOrModifiedCategories: Category[];
+  deletedCategoryIds: UUID[];
+}
+
+export async function batchWriteDiff(uid: string, diff: DiffOps): Promise<void> {
+  const MAX_BATCH_OPS = 499;
+
+  type BatchOp =
+    | { type: "set"; ref: ReturnType<typeof doc>; data: Record<string, unknown> }
+    | { type: "delete"; ref: ReturnType<typeof doc> };
+
+  const ops: BatchOp[] = [];
+
+  for (const task of diff.addedOrModifiedTasks) {
+    ops.push({
+      type: "set",
+      ref: doc(db, "users", uid, "tasks", task.id),
+      data: taskToFirestore(task),
+    });
+  }
+
+  for (const taskId of diff.deletedTaskIds) {
+    ops.push({
+      type: "delete",
+      ref: doc(db, "users", uid, "tasks", taskId),
+    });
+  }
+
+  for (const cat of diff.addedOrModifiedCategories) {
+    ops.push({
+      type: "set",
+      ref: doc(db, "users", uid, "categories", cat.id),
+      data: categoryToFirestore(cat),
+    });
+  }
+
+  for (const catId of diff.deletedCategoryIds) {
+    ops.push({
+      type: "delete",
+      ref: doc(db, "users", uid, "categories", catId),
+    });
+  }
+
+  if (ops.length === 0) return;
+
+  for (let i = 0; i < ops.length; i += MAX_BATCH_OPS) {
+    const batch = writeBatch(db);
+    const chunk = ops.slice(i, i + MAX_BATCH_OPS);
+    for (const op of chunk) {
+      if (op.type === "set") {
+        batch.set(op.ref, op.data);
+      } else {
+        batch.delete(op.ref);
+      }
+    }
+    await batch.commit();
+  }
+}
+
+// --- Delete All User Data ---
+
+export async function deleteAllUserData(uid: string): Promise<void> {
+  const MAX_BATCH_OPS = 499;
+
+  // Collect all docs to delete
+  const refs: ReturnType<typeof doc>[] = [];
+
+  const taskSnap = await getDocs(collection(db, "users", uid, "tasks"));
+  taskSnap.docs.forEach((d) => refs.push(d.ref));
+
+  const catSnap = await getDocs(collection(db, "users", uid, "categories"));
+  catSnap.docs.forEach((d) => refs.push(d.ref));
+
+  // Delete the user profile doc
+  refs.push(doc(db, "users", uid));
+
+  for (let i = 0; i < refs.length; i += MAX_BATCH_OPS) {
+    const batch = writeBatch(db);
+    const chunk = refs.slice(i, i + MAX_BATCH_OPS);
+    for (const ref of chunk) {
+      batch.delete(ref);
+    }
+    await batch.commit();
+  }
 }
 
 // --- Real-time Listeners ---
@@ -223,7 +320,10 @@ export function onTasksChange(uid: string, callback: (tasks: Task[]) => void): U
   });
 }
 
-export function onCategoriesChange(uid: string, callback: (categories: Category[]) => void): Unsubscribe {
+export function onCategoriesChange(
+  uid: string,
+  callback: (categories: Category[]) => void,
+): Unsubscribe {
   return onSnapshot(collection(db, "users", uid, "categories"), (snap) => {
     const categories = snap.docs.map((d) => categoryFromFirestore(d.data(), d.id));
     callback(categories);

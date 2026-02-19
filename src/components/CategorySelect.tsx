@@ -59,7 +59,7 @@ export const CategorySelect: React.FC<CategorySelectProps> = ({
   const handleCategoryChange = (event: SelectChangeEvent<unknown>): void => {
     const selectedCategoryIds = event.target.value as UUID[];
     if (selectedCategoryIds.length > MAX_CATEGORIES_IN_TASK) {
-      showToast(`You cannot add more than ${MAX_CATEGORIES_IN_TASK} categories`, {
+      showToast(`最多只能添加 ${MAX_CATEGORIES_IN_TASK} 個分類`, {
         type: "error",
         position: "top-center",
         id: "max-categories-toast",
@@ -92,7 +92,7 @@ export const CategorySelect: React.FC<CategorySelectProps> = ({
           fontWeight: 500,
         }}
       >
-        Category
+        分類
       </FormLabel>
 
       <StyledSelect
@@ -131,7 +131,7 @@ export const CategorySelect: React.FC<CategorySelectProps> = ({
               ))}
             </Box>
           ) : (
-            <Box sx={{ color: fontColor }}>Select Categories</Box>
+            <Box sx={{ color: fontColor }}>選擇分類</Box>
           )
         }
         MenuProps={{
@@ -186,7 +186,7 @@ export const CategorySelect: React.FC<CategorySelectProps> = ({
               <HeaderMenuItem key="header-info" disabled>
                 <div style={{ display: "flex", flexDirection: "column", gap: "2px" }}>
                   <b>
-                    Select Categories{" "}
+                    選擇分類{" "}
                     <span
                       style={{
                         transition: ".3s color",
@@ -196,18 +196,18 @@ export const CategorySelect: React.FC<CategorySelectProps> = ({
                             : "currentcolor",
                       }}
                     >
-                      {categories.length > 3 && <span>(max {MAX_CATEGORIES_IN_TASK})</span>}
+                      {categories.length > 3 && <span>（最多 {MAX_CATEGORIES_IN_TASK} 個）</span>}
                     </span>
                   </b>
                   <SelectedNames>
-                    Selected:{" "}
+                    已選：{" "}
                     {selectedCats.length > 0 ? (
-                      new Intl.ListFormat("en", {
+                      new Intl.ListFormat("zh-TW", {
                         style: "long",
                         type: "conjunction",
                       }).format(selectedCats.map((category) => category.name))
                     ) : (
-                      <span style={{ fontStyle: "italic" }}>none</span>
+                      <span style={{ fontStyle: "italic" }}>無</span>
                     )}
                   </SelectedNames>
                 </div>
@@ -216,20 +216,20 @@ export const CategorySelect: React.FC<CategorySelectProps> = ({
                 favoriteCats,
                 <>
                   <StarRounded color="warning" sx={{ fontSize: "18px" }} />
-                  &nbsp;Favorite Categories
+                  &nbsp;收藏分類
                 </>,
                 "header-favorites",
               ),
               ...createCategoryGroup(
                 otherCats,
-                favoriteCats.length > 0 ? "Other Categories" : "",
+                favoriteCats.length > 0 ? "其他分類" : "",
                 "header-others",
               ),
               <div key="footer" style={{ margin: "8px" }}>
                 <Divider sx={{ mb: "12px", mt: "16px" }} />
                 <Link to="/categories">
                   <Button fullWidth variant="outlined" sx={{ mb: "8px", mt: "2px" }}>
-                    <EditRounded /> &nbsp; Modify Categories
+                    <EditRounded /> &nbsp; 管理分類
                   </Button>
                 </Link>
               </div>,
@@ -237,10 +237,10 @@ export const CategorySelect: React.FC<CategorySelectProps> = ({
           } else {
             return [
               <NoCategories key="no-categories" disableTouchRipple>
-                <p>You don't have any categories</p>
+                <p>您還沒有任何分類</p>
                 <Link to="/categories" style={{ width: "100%" }}>
                   <Button fullWidth variant="outlined">
-                    <AddRounded /> &nbsp; Create Category
+                    <AddRounded /> &nbsp; 建立分類
                   </Button>
                 </Link>
               </NoCategories>,

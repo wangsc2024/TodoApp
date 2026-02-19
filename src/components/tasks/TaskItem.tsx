@@ -161,7 +161,7 @@ export const TaskItem = memo(
         <TaskInfo translate="no">
           {task.pinned && (
             <Pinned translate="yes">
-              <PushPinRounded fontSize="small" /> &nbsp; Pinned
+              <PushPinRounded fontSize="small" /> &nbsp; 已釘選
             </Pinned>
           )}
           <TaskHeader>
@@ -224,7 +224,7 @@ export const TaskItem = memo(
 
           {task.sharedBy && (
             <SharedByContainer translate="yes">
-              <Link /> Shared by{" "}
+              <Link /> 分享自{" "}
               <span translate={task.sharedBy === "User" ? "yes" : "no"}>{task.sharedBy}</span>
             </SharedByContainer>
           )}

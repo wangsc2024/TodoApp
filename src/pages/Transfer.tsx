@@ -73,7 +73,7 @@ const Transfer = () => {
     exportTasksToJson(tasksToExport);
     showToast(
       <div>
-        Exported tasks:{" "}
+        已匯出任務：{" "}
         <ul>
           {tasksToExport.map((task) => (
             <li key={task.id}>
@@ -91,11 +91,11 @@ const Transfer = () => {
 
   const handleExportAll = () => {
     if (user.tasks.length === 0) {
-      showToast("No tasks to export", { type: "error" });
+      showToast("沒有可匯出的任務", { type: "error" });
       return;
     }
     exportTasksToJson(user.tasks);
-    showToast(`Exported all tasks (${user.tasks.length})`);
+    showToast(`已匯出所有任務 (${user.tasks.length})`);
   };
 
   const handleImport = useCallback(
@@ -106,8 +106,8 @@ const Transfer = () => {
         if (file.type !== "application/json") {
           showToast(
             <div>
-              Incorrect file type {file.type !== "" && <span translate="no">{file.type}</span>}.
-              Please select a JSON file.
+              檔案類型不正確 {file.type !== "" && <span translate="no">{file.type}</span>}。 請選擇
+              JSON 檔案。
             </div>,
             { type: "error" },
           );
@@ -121,7 +121,7 @@ const Transfer = () => {
             const importedTasks = JSON.parse(e.target?.result as string) as Task[];
 
             if (!Array.isArray(importedTasks)) {
-              showToast("Imported file has an invalid structure.", { type: "error" });
+              showToast("匯入的檔案結構無效。", { type: "error" });
               return;
             }
 
@@ -142,13 +142,10 @@ const Transfer = () => {
 
             if (invalidTasks.length > 0) {
               const invalidTaskNames = invalidTasks.map((task) => task.name).join(", ");
-              console.error(
-                `These tasks cannot be imported due to exceeding maximum character lengths: ${invalidTaskNames}`,
-              );
-              showToast(
-                `These tasks cannot be imported due to exceeding maximum character lengths: ${invalidTaskNames}`,
-                { type: "error" },
-              );
+              console.error(`這些任務因超過最大字元長度而無法匯入：${invalidTaskNames}`);
+              showToast(`這些任務因超過最大字元長度而無法匯入：${invalidTaskNames}`, {
+                type: "error",
+              });
               return;
             }
 
@@ -163,7 +160,7 @@ const Transfer = () => {
             });
 
             if (hasInvalidColors) {
-              showToast("Imported file contains tasks with invalid color formats.", {
+              showToast("匯入的檔案包含顏色格式無效的任務。", {
                 type: "error",
               });
               return;
@@ -171,7 +168,7 @@ const Transfer = () => {
 
             const maxFileSize = 6 * 1024 * 1024; //MB
             if (file.size > maxFileSize) {
-              const formatMB = new Intl.NumberFormat("en-US", {
+              const formatMB = new Intl.NumberFormat("zh-TW", {
                 style: "unit",
                 unit: "megabyte",
                 maximumFractionDigits: 2,
@@ -181,7 +178,7 @@ const Transfer = () => {
               const maxSizeMB = maxFileSize / (1024 * 1024);
 
               showToast(
-                `File size is too large (${formatMB.format(fileSizeMB)}/${formatMB.format(maxSizeMB)})`,
+                `檔案大小過大 (${formatMB.format(fileSizeMB)}/${formatMB.format(maxSizeMB)})`,
                 { type: "error" },
               );
               return;
@@ -232,7 +229,7 @@ const Transfer = () => {
 
             showToast(
               <div>
-                Tasks Successfully Imported from <br />
+                已成功從以下檔案匯入任務 <br />
                 <i translate="no" style={{ wordBreak: "break-all" }}>
                   {file.name}
                 </i>
@@ -257,7 +254,8 @@ const Transfer = () => {
             console.error(`Error parsing the imported file ${file.name}:`, error);
             showToast(
               <div style={{ wordBreak: "break-all" }}>
-                Error parsing the imported file: <br /> <i>{file.name}</i>
+                解析匯入檔案時發生錯誤：
+                <br /> <i>{file.name}</i>
               </div>,
               { type: "error" },
             );
@@ -279,13 +277,7 @@ const Transfer = () => {
       if (text.startsWith(`${location.protocol}//${location.hostname}`)) {
         window.open(text, "_self");
       } else {
-        showToast(
-          <div>
-            Failed to import task from the provided link. Please ensure that the link is copied
-            correctly.
-          </div>,
-          { type: "error" },
-        );
+        showToast(<div>無法從提供的連結匯入任務。請確認連結已正確複製。</div>, { type: "error" });
       }
     } catch (err) {
       console.error("Failed to read clipboard contents: ", err);
@@ -299,7 +291,7 @@ const Transfer = () => {
         const path = url.pathname + url.search + url.hash;
         n(path);
       } else {
-        showToast(<div>Failed to import task from the provided QR Code.</div>, { type: "error" });
+        showToast(<div>無法從提供的 QR Code 匯入任務。</div>, { type: "error" });
       }
     } catch (err) {
       console.error("Failed to read clipboard contents: ", err);
@@ -331,7 +323,7 @@ const Transfer = () => {
     if (file.size === 0 || file.type === "") {
       showToast(
         <div>
-          Unknown file type{" "}
+          未知的檔案類型{" "}
           <i translate="no" style={{ wordBreak: "break-all" }}>
             {file.name}
           </i>
@@ -368,16 +360,16 @@ const Transfer = () => {
 
   return (
     <>
-      <TopBar title="Transfer" />
-      <ManagementHeader>Sync All Data</ManagementHeader>
+      <TopBar title="傳輸" />
+      <ManagementHeader>同步所有資料</ManagementHeader>
       <ManagementButtonsContainer>
         <Link to="/sync" tabIndex={-1}>
           <ManagementButton variant="contained" size="large" sx={{ mb: 1 }}>
-            <PhonelinkRounded /> &nbsp; Sync With Other Device
+            <PhonelinkRounded /> &nbsp; 與其他裝置同步
           </ManagementButton>
         </Link>
       </ManagementButtonsContainer>
-      <ManagementHeader>Export Tasks to JSON</ManagementHeader>
+      <ManagementHeader>匯出任務為 JSON</ManagementHeader>
       <ManagementContainer>
         {user.tasks.length > 0 ? (
           user.tasks.map((task: Task) => (
@@ -400,7 +392,7 @@ const Transfer = () => {
             </TaskManagementContainer>
           ))
         ) : (
-          <h3 style={{ opacity: 0.8, fontStyle: "italic" }}>You don't have any tasks to export</h3>
+          <h3 style={{ opacity: 0.8, fontStyle: "italic" }}>您沒有任何可匯出的任務</h3>
         )}
       </ManagementContainer>
 
@@ -408,7 +400,7 @@ const Transfer = () => {
         <Tooltip
           title={
             selectedTasks.length > 0
-              ? `Selected tasks: ${new Intl.ListFormat("en", {
+              ? `已選擇的任務：${new Intl.ListFormat("zh-TW", {
                   style: "long",
                   type: "conjunction",
                 }).format(
@@ -421,15 +413,15 @@ const Transfer = () => {
           }
         >
           <ManagementButton onClick={handleExport} disabled={selectedTasks.length === 0}>
-            <FileDownload /> &nbsp; Export Selected to JSON{" "}
+            <FileDownload /> &nbsp; 匯出所選為 JSON{" "}
             {selectedTasks.length > 0 && `[${selectedTasks.length}]`}
           </ManagementButton>
         </Tooltip>
         <ManagementButton onClick={handleExportAll} disabled={user.tasks.length === 0}>
-          <FileDownload /> &nbsp; Export All Tasks to JSON
+          <FileDownload /> &nbsp; 匯出所有任務為 JSON
         </ManagementButton>
 
-        <h2 style={{ textAlign: "center" }}>Import Tasks From JSON</h2>
+        <h2 style={{ textAlign: "center" }}>從 JSON 匯入任務</h2>
 
         {systemInfo.os !== "Android" && systemInfo.os !== "iOS" && (
           <div style={{ width: "300px" }}>
@@ -440,7 +432,7 @@ const Transfer = () => {
               isDragging={isDragging}
             >
               <FileUpload fontSize="large" color="primary" />
-              <div>Drop JSON file here to import tasks </div>
+              <div>將 JSON 檔案拖放到此處以匯入任務</div>
             </DropZone>
           </div>
         )}
@@ -456,7 +448,7 @@ const Transfer = () => {
             width: "300px",
           }}
         >
-          <FileUpload /> &nbsp; Select JSON File
+          <FileUpload /> &nbsp; 選擇 JSON 檔案
           <VisuallyHiddenInput
             accept=".json"
             type="file"
@@ -466,23 +458,23 @@ const Transfer = () => {
         </Button>
 
         <ManagementButton onClick={handleImportFromClipboard}>
-          <IntegrationInstructionsRounded /> &nbsp; Import JSON from clipboard
+          <IntegrationInstructionsRounded /> &nbsp; 從剪貼簿匯入 JSON
         </ManagementButton>
-        <h2 style={{ textAlign: "center" }}>Import Task From a Link</h2>
+        <h2 style={{ textAlign: "center" }}>從連結匯入任務</h2>
         <ManagementButton onClick={() => setIsScannerOpen(true)}>
-          <QrCodeScannerRounded /> &nbsp; Scan QR Code
+          <QrCodeScannerRounded /> &nbsp; 掃描 QR Code
         </ManagementButton>
         {/* Solution for PWA on iOS: */}
         <ManagementButton onClick={handleImportFromLink}>
-          <LinkIcon /> &nbsp; Paste Link
+          <LinkIcon /> &nbsp; 貼上連結
         </ManagementButton>
       </ManagementButtonsContainer>
       <QRCodeScannerDialog
-        subTitle="Import task by scanning a QR code"
+        subTitle="掃描 QR Code 以匯入任務"
         open={isScannerOpen}
         onClose={() => setIsScannerOpen(false)}
         onScan={(result) => {
-          showToast("QR Code scanned successfully!");
+          showToast("QR Code 掃描成功！");
           setIsScannerOpen(false);
           if (result[0].rawValue) {
             handleImportFromQRCode(result[0].rawValue);

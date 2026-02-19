@@ -65,7 +65,7 @@ const TaskMenuButton = memo(
   ({ task, onClick }: { task: Task; onClick: (event: React.MouseEvent<HTMLElement>) => void }) => (
     <IconButton
       id="task-menu-button"
-      aria-label="Task Menu"
+      aria-label="任務選單"
       aria-controls="task-menu"
       aria-haspopup="true"
       aria-expanded={Boolean(task)}
@@ -248,7 +248,7 @@ export const TasksList: React.FC = () => {
     setDeleteDialogOpen(false);
     showToast(
       <div>
-        Deleted Task - <b translate="no">{taskToDelete?.name}</b>
+        已刪除任務 - <b translate="no">{taskToDelete?.name}</b>
       </div>,
     );
     setTaskToDelete(null);
@@ -337,7 +337,7 @@ export const TasksList: React.FC = () => {
 
         showToast(
           <div translate="no" style={{ wordBreak: "break-word" }}>
-            <b translate="yes">Overdue task{overdueTasks.length > 1 && "s"}: </b>
+            <b translate="yes">逾期任務：</b>
             {listFormat.format(taskNames)}
           </div>,
           {
@@ -411,7 +411,7 @@ export const TasksList: React.FC = () => {
               <SearchInput
                 inputRef={searchRef}
                 color="primary"
-                placeholder="Search for task..."
+                placeholder="搜尋任務..."
                 autoComplete="off"
                 value={search}
                 disabled={moveMode}
@@ -496,8 +496,7 @@ export const TasksList: React.FC = () => {
           <TaskActionContainer>
             <div>
               <h3>
-                <RadioButtonChecked /> &nbsp; Selected {multipleSelectedTasks.length} task
-                {multipleSelectedTasks.length > 1 ? "s" : ""}
+                <RadioButtonChecked /> &nbsp; 已選取 {multipleSelectedTasks.length} 個任務
               </h3>
               <span translate="no" style={{ fontSize: "14px", opacity: 0.8 }}>
                 {listFormat.format(
@@ -509,7 +508,7 @@ export const TasksList: React.FC = () => {
             </div>
             {/* TODO: add more features */}
             <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-              <Tooltip title="Mark selected as done">
+              <Tooltip title="將選取的任務標記為完成">
                 <IconButton
                   sx={{ color: getFontColor(theme.secondary) }}
                   size="large"
@@ -518,12 +517,12 @@ export const TasksList: React.FC = () => {
                   <DoneAll />
                 </IconButton>
               </Tooltip>
-              <Tooltip title="Delete selected">
+              <Tooltip title="刪除選取的任務">
                 <IconButton color="error" size="large" onClick={handleDeleteSelected}>
                   <Delete />
                 </IconButton>
               </Tooltip>
-              <Tooltip sx={{ color: getFontColor(theme.secondary) }} title="Cancel">
+              <Tooltip sx={{ color: getFontColor(theme.secondary) }} title="取消">
                 <IconButton size="large" onClick={() => setMultipleSelectedTasks([])}>
                   <CancelRounded />
                 </IconButton>
@@ -535,12 +534,12 @@ export const TasksList: React.FC = () => {
           <TaskActionContainer>
             <div>
               <h3>
-                <MoveUpRounded /> &nbsp; Move Mode Enabled
+                <MoveUpRounded /> &nbsp; 移動模式已啟用
               </h3>
-              <span>Organize tasks by dragging and dropping.</span>
+              <span>透過拖放來整理任務。</span>
             </div>
             <Button variant="contained" onClick={() => setMoveMode(false)}>
-              Done
+              完成
             </Button>
           </TaskActionContainer>
         )}
@@ -553,10 +552,7 @@ export const TasksList: React.FC = () => {
               marginTop: "12px",
             }}
           >
-            <b>
-              Found {orderedTasks.length} task
-              {orderedTasks.length > 1 ? "s" : ""}
-            </b>
+            <b>找到 {orderedTasks.length} 個任務</b>
           </div>
         )}
         {/* FIXME: dry */}
@@ -666,16 +662,16 @@ export const TasksList: React.FC = () => {
           )
         ) : (
           <NoTasks>
-            <span>You don't have any tasks yet</span>
+            <span>您還沒有任何任務</span>
             <br />
-            Click on the <span>+</span> button to add one
+            點擊 <span>+</span> 按鈕來新增一個
           </NoTasks>
         )}
         {search && orderedTasks.length === 0 && user.tasks.length > 0 ? (
           <TaskNotFound>
-            <b>No tasks found</b>
+            <b>找不到任務</b>
             <br />
-            Try searching with different keywords.
+            請嘗試使用不同的關鍵字搜尋。
             <div style={{ marginTop: "14px" }}>
               <TaskIcon scale={0.8} />
             </div>
@@ -689,8 +685,8 @@ export const TasksList: React.FC = () => {
       </TasksContainer>
       <Dialog open={deleteDialogOpen} onClose={cancelDeleteTask}>
         <CustomDialogTitle
-          title="Delete Task"
-          subTitle="Are you sure you want to delete this task?"
+          title="刪除任務"
+          subTitle="確定要刪除這個任務嗎？"
           onClose={cancelDeleteTask}
           icon={<Delete />}
         />
@@ -706,17 +702,17 @@ export const TasksList: React.FC = () => {
         </DialogContent>
         <DialogActions>
           <DialogBtn onClick={cancelDeleteTask} color="primary">
-            Cancel
+            取消
           </DialogBtn>
           <DialogBtn onClick={confirmDeleteTask} color="error">
-            <DeleteRounded /> &nbsp; Confirm Delete
+            <DeleteRounded /> &nbsp; 確認刪除
           </DialogBtn>
         </DialogActions>
       </Dialog>
       <Dialog open={deleteSelectedOpen}>
         <CustomDialogTitle
-          title="Delete selected tasks"
-          subTitle="Confirm to delete selected tasks"
+          title="刪除選取的任務"
+          subTitle="確認刪除選取的任務"
           icon={<DeleteRounded />}
         />
         <DialogContent translate="no">
@@ -728,7 +724,7 @@ export const TasksList: React.FC = () => {
         </DialogContent>
         <DialogActions>
           <DialogBtn onClick={() => setDeleteSelectedOpen(false)} color="primary">
-            Cancel
+            取消
           </DialogBtn>
           <DialogBtn
             onClick={() => {
@@ -746,7 +742,7 @@ export const TasksList: React.FC = () => {
             }}
             color="error"
           >
-            Delete
+            刪除
           </DialogBtn>
         </DialogActions>
       </Dialog>
