@@ -1,18 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
-import {
-  Button,
-  CircularProgress,
-  Tab,
-  Tabs,
-  TextField,
-} from "@mui/material";
-import {
-  LoginRounded,
-  PersonAddRounded,
-  PersonOutlineRounded,
-} from "@mui/icons-material";
+import { Button, CircularProgress, Tab, Tabs, TextField } from "@mui/material";
+import { LoginRounded, PersonAddRounded, PersonOutlineRounded } from "@mui/icons-material";
 import { TopBar } from "../components";
 import { ForgotPasswordDialog } from "../components/ForgotPasswordDialog";
 import { useAuth } from "../hooks/useAuth";
@@ -66,11 +56,7 @@ const Auth = () => {
       const success = await signIn(email.trim(), password);
       if (success) n("/");
     } else {
-      const success = await signUp(
-        email.trim(),
-        password,
-        displayName.trim() || undefined,
-      );
+      const success = await signUp(email.trim(), password, displayName.trim() || undefined);
       if (success) n("/");
     }
 
@@ -103,11 +89,7 @@ const Auth = () => {
             value={displayName}
             onChange={(e) => setDisplayName(e.target.value)}
             error={displayNameError}
-            helperText={
-              displayNameError
-                ? `名稱不可超過 ${USER_NAME_MAX_LENGTH} 個字元`
-                : ""
-            }
+            helperText={displayNameError ? `名稱不可超過 ${USER_NAME_MAX_LENGTH} 個字元` : ""}
             autoComplete="name"
           />
         )}
@@ -153,11 +135,7 @@ const Auth = () => {
           </ForgotPasswordLink>
         )}
 
-        <SubmitButton
-          onClick={handleSubmit}
-          disabled={!canSubmit || loading}
-          fullWidth
-        >
+        <SubmitButton onClick={handleSubmit} disabled={!canSubmit || loading} fullWidth>
           {loading ? (
             <CircularProgress size={24} color="inherit" />
           ) : isSignIn ? (
@@ -171,11 +149,7 @@ const Auth = () => {
           )}
         </SubmitButton>
 
-        <GuestButton
-          onClick={() => n("/")}
-          variant="outlined"
-          fullWidth
-        >
+        <GuestButton onClick={() => n("/")} variant="outlined" fullWidth>
           <PersonOutlineRounded /> &nbsp; 以訪客身份繼續
         </GuestButton>
       </Container>
@@ -195,10 +169,8 @@ const Container = styled.div`
   max-width: 400px;
   padding: 48px 32px;
   border-radius: 48px;
-  background: ${({ theme }) =>
-    theme.darkmode ? "#383838" : "#f5f5f5"};
-  color: ${({ theme }) =>
-    theme.darkmode ? ColorPalette.fontLight : ColorPalette.fontDark};
+  background: ${({ theme }) => (theme.darkmode ? "#383838" : "#f5f5f5")};
+  color: ${({ theme }) => (theme.darkmode ? ColorPalette.fontLight : ColorPalette.fontDark)};
   transition:
     border 0.3s,
     box-shadow 0.3s;
